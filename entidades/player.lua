@@ -26,4 +26,19 @@ function player.atacado(p, dano)
     end
 end
 
+--Setando info do player
+player.char = {}
+player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
+player.char.velocidade = 3
+player.char.velocidadeY = 7
+player.char.salto = 100
+player.char.esta_saltando = false
+player.char.inicio_salto = 0
+player.char.altura = 70
+player.char.largura = 104
+player.char.esgotado = false
+player.char.last_move_x = ''
+player.char.x = 0
+player.char.y = (love.graphics.getHeight()/5) * 4 + 36
+
 return player;
