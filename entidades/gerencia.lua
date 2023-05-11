@@ -29,7 +29,7 @@ end
 gerencia.movimentacao = function(jogador)
     function love.update(dt)
         if love.keyboard.isDown('w') then
-            jogador.velocidade = 5
+            jogador.velocidade = 3
 
             if jogador.esta_saltando == false then
                 jogador.inicio_salto = jogador.y
@@ -63,17 +63,38 @@ gerencia.movimentacao = function(jogador)
         if love.keyboard.isDown('s') then
             if (jogador.y + jogador.velocidade < Chao) then
                 jogador.y = jogador.y + jogador.velocidade
+
+                jogador.image = love.graphics.newImage("imagens/abaixa.png")
+
             else
                 jogador.y = jogador.y
                 jogador.esta_saltando = false
             end
         end
+        
 
+        --IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
+        if(jogador.y >= (Chao - 200) and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
+            jogador.image = love.graphics.newImage("imagens/terminando_queda.png")
+        end
+
+        if(jogador.y >= (Chao - 30)) then
+            jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
+        end
+
+        --RESETANDO ESTADO DE SALTO
         if jogador.y >= Chao then
             jogador.esta_saltando = false
             jogador.esgotado = false
-            jogador.velocidadeY = 6
-            jogador.velocidade = 3
+            jogador.velocidadeY = 2
+            jogador.velocidade = 2
+
+            if(jogador.last_move_x == 'd' and not love.keyboard.isDown('w')) then
+                jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
+            else
+                jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
+            end
+
         end
 
         if love.keyboard.isDown('d') then
@@ -86,9 +107,9 @@ gerencia.movimentacao = function(jogador)
             jogador.last_move_x = 'd'
         end
 
-        if not love.keyboard.isDown('d') and jogador.last_move_x == 'd' then
-            jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
-        end
+        -- if not love.keyboard.isDown('d') and jogador.last_move_x == 'd' then
+        --     jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
+        -- end
 
         
 
@@ -103,9 +124,9 @@ gerencia.movimentacao = function(jogador)
             jogador.last_move_x = 'a'
         end
 
-        if not love.keyboard.isDown('a') and jogador.last_move_x == 'a' then
-            jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
-        end
+        -- if not love.keyboard.isDown('a') and jogador.last_move_x == 'a' then
+        --     jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
+        -- end
     end
 end
 
