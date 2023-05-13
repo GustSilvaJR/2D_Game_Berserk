@@ -5,7 +5,7 @@ gerencia.telaPrincipal = function()
         love.window.setTitle('Berserk')
         love.window.setFullscreen(true)
 
-        --love.graphics.setBackgroundColor(40 / 255, 40 / 255, 40 / 255)
+        -- love.graphics.setBackgroundColor(40 / 255, 40 / 255, 40 / 255)
 
         Background = love.graphics.newImage('imagens/Background.jpeg')
     end
@@ -17,7 +17,7 @@ gerencia.desenhar = function(jogador)
             love.graphics.draw(Background, i * Background:getWidth(), love.graphics.getHeight() / 5)
         end
         love.graphics.draw(jogador.image, jogador.x, jogador.y)
-        -- love.graphics.print("Posicao Y:        " .. jogador.y, jogador.x, jogador.y)
+        love.graphics.print("Posicao Y:        " .. jogador.y)
         -- love.graphics.print(
         --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
         --     jogador.x, jogador.y)
@@ -61,38 +61,50 @@ gerencia.movimentacao = function(jogador)
         -- end
 
         if love.keyboard.isDown('s') then
+
+            if (jogador.abaixado == false) then
+                jogador.abaixado = true;
+                jogador.y = (((love.graphics.getHeight() / 5) * 4) + 41);
+                jogador.image = love.graphics.newImage("imagens/abaixa.png");
+            end
+
             if (jogador.y + jogador.velocidade < Chao) then
                 jogador.y = jogador.y + jogador.velocidade
-
-                jogador.image = love.graphics.newImage("imagens/abaixa.png")
 
             else
                 jogador.y = jogador.y
                 jogador.esta_saltando = false
             end
         end
-        
 
-        --IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
-        if(jogador.y >= (Chao - 200) and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
-            jogador.image = love.graphics.newImage("imagens/terminando_queda.png")
+        --RESET ESTADO abaixado
+        if love.keyboard.isDown('s') then
+            jogador.abaixado = false;
         end
 
-        if(jogador.y >= (Chao - 30)) then
+        -- IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
+        if (jogador.y >= (Chao - 200) and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
+            jogador.image = love.graphics.newImage("imagens/terminando_queda.png")
+
+        end
+
+        if (jogador.y >= (Chao - 30) and not love.keyboard.isDown('s')) then
             jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
         end
 
-        --RESETANDO ESTADO DE SALTO
+        -- RESETANDO ESTADO DE SALTO
         if jogador.y >= Chao then
             jogador.esta_saltando = false
             jogador.esgotado = false
             jogador.velocidadeY = 2
             jogador.velocidade = 2
 
-            if(jogador.last_move_x == 'd' and not love.keyboard.isDown('w')) then
+            if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
                 jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
             else
-                jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
+                if (jogador.last_move_x == 'a' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
+                    jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
+                end
             end
 
         end
@@ -110,8 +122,6 @@ gerencia.movimentacao = function(jogador)
         -- if not love.keyboard.isDown('d') and jogador.last_move_x == 'd' then
         --     jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
         -- end
-
-        
 
         if love.keyboard.isDown('a') then
             if jogador.x - jogador.velocidade >= 0 then
