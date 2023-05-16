@@ -1,3 +1,5 @@
+io.stdout:setvbuf('no')
+
 --Classes Gerenciais
 local gerencia = require('entidades/gerencia')
 

@@ -1,4 +1,8 @@
 local gerencia = {}
+Lu = require('../luaunit')
+
+
+
 
 gerencia.telaPrincipal = function()
     function love.load()
@@ -18,21 +22,26 @@ gerencia.desenhar = function(jogador)
         end
         love.graphics.draw(jogador.image, jogador.x, jogador.y)
 
-        hero = love.graphics.newImage('imagens/oldHero.png');
+        --Movimentação Sprite
+        spriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
+        love.graphics.draw(Animation.spriteSheet, Animation.quads[spriteNum],500,300)
 
-        gerencia.newAnimation(hero, 32, 32, 1)
-
-        love.graphics.print("Posicao Y:        " .. jogador.y)
+        --love.graphics.print("Posicao Y:        " .. jogador.y)
         -- love.graphics.print(
         --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
         --     jogador.x, jogador.y)
-        love.graphics.print("\n\n\nCalc:        " .. (love.graphics.getHeight() / 5) * 3 + 36)
+        --love.graphics.print("\n\n\nCalc:        " .. (love.graphics.getHeight() / 5) * 3 + 36)
         -- love.graphics.print("\n\n\n\n\n\nSaltando:        " .. tostring(jogador.esta_saltando), jogador.x, jogador.y)
     end
 end
 
 gerencia.movimentacao = function(jogador)
     function love.update(dt)
+        Animation.currentTime = Animation.currentTime + dt
+        if Animation.currentTime >= Animation.duration then
+            Animation.currentTime = Animation.currentTime - Animation.duration
+        end
+
         if love.keyboard.isDown('w') then
             jogador.velocidade = 3
 
@@ -58,7 +67,6 @@ gerencia.movimentacao = function(jogador)
         end
 
         if (love.keyboard.isDown('s') and jogador.abaixado == false) then
-
             if (jogador.abaixado == false) then
                 jogador.abaixado = true;
                 jogador.y = (((love.graphics.getHeight() / 5) * 3) + 41);
@@ -67,7 +75,6 @@ gerencia.movimentacao = function(jogador)
 
             if (jogador.y + jogador.velocidade < Chao) then
                 jogador.y = jogador.y + jogador.velocidade
-
             else
                 jogador.y = jogador.y
                 jogador.esta_saltando = false
@@ -83,7 +90,6 @@ gerencia.movimentacao = function(jogador)
         -- IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
         if (jogador.y >= (Chao - 200) and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
             jogador.image = love.graphics.newImage("imagens/terminando_queda.png")
-
         end
 
         if (jogador.y >= (Chao - 30) and not love.keyboard.isDown('s')) then
@@ -104,7 +110,6 @@ gerencia.movimentacao = function(jogador)
                     jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
                 end
             end
-
         end
 
         if love.keyboard.isDown('d') then
@@ -122,7 +127,6 @@ gerencia.movimentacao = function(jogador)
                 jogador.image = love.graphics.newImage("imagens/guts_movimento_esq.png")
                 jogador.x = jogador.x - jogador.velocidade
             else
-
                 jogador.x = jogador.x
             end
             jogador.last_move_x = 'a'
@@ -135,7 +139,7 @@ gerencia.movimentacao = function(jogador)
     end
 end
 
-function gerencia.newAnimation(image, width, height, duartion)
+function gerencia.newAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image
     animation.quads = {}
@@ -146,9 +150,12 @@ function gerencia.newAnimation(image, width, height, duartion)
         end
     end
 
-    love.graphics.draw(animation.spriteSheet);
+    animation.duration = duration or 1
+    animation.currentTime = 0
 
     return animation
 end
+
+Animation = gerencia.newAnimation(love.graphics.newImage("imagens/spriteCorrida2.png"),190, 115,1)
 
 return gerencia
