@@ -21,7 +21,6 @@ gerencia.desenhar(player.char)
 gerencia.movimentacao(player.char)
 
 
-
 --Adicionar Inventario
 --player.obter_pocao(player1, pocao.novo())
 

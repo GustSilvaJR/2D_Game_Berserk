@@ -17,11 +17,16 @@ gerencia.desenhar = function(jogador)
             love.graphics.draw(Background, i * Background:getWidth(), love.graphics.getHeight() / 5)
         end
         love.graphics.draw(jogador.image, jogador.x, jogador.y)
+
+        hero = love.graphics.newImage('imagens/oldHero.png');
+
+        gerencia.newAnimation(hero, 32, 32, 1)
+
         love.graphics.print("Posicao Y:        " .. jogador.y)
         -- love.graphics.print(
         --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
         --     jogador.x, jogador.y)
-        -- love.graphics.print("\n\n\n\nChao:        " .. Chao, jogador.x, jogador.y)
+        love.graphics.print("\n\n\nCalc:        " .. (love.graphics.getHeight() / 5) * 3 + 36)
         -- love.graphics.print("\n\n\n\n\n\nSaltando:        " .. tostring(jogador.esta_saltando), jogador.x, jogador.y)
     end
 end
@@ -52,19 +57,11 @@ gerencia.movimentacao = function(jogador)
             jogador.y = jogador.y + 4
         end
 
-        -- if (not love.keyboard.isDown('d') and not love.keyboard.isDown('w')) then
-        --     jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
-        -- end
-
-        -- if (not love.keyboard.isDown('a') and not love.keyboard.isDown('w')) then
-        --     jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
-        -- end
-
-        if love.keyboard.isDown('s') then
+        if (love.keyboard.isDown('s') and jogador.abaixado == false) then
 
             if (jogador.abaixado == false) then
                 jogador.abaixado = true;
-                jogador.y = (((love.graphics.getHeight() / 5) * 4) + 41);
+                jogador.y = (((love.graphics.getHeight() / 5) * 3) + 41);
                 jogador.image = love.graphics.newImage("imagens/abaixa.png");
             end
 
@@ -77,9 +74,10 @@ gerencia.movimentacao = function(jogador)
             end
         end
 
-        --RESET ESTADO abaixado
-        if love.keyboard.isDown('s') then
+        -- RESET ESTADO abaixado
+        if (not love.keyboard.isDown('s') and jogador.abaixado == true) then
             jogador.abaixado = false;
+            jogador.y = (((love.graphics.getHeight() / 5) * 3) + 10);
         end
 
         -- IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
@@ -119,10 +117,6 @@ gerencia.movimentacao = function(jogador)
             jogador.last_move_x = 'd'
         end
 
-        -- if not love.keyboard.isDown('d') and jogador.last_move_x == 'd' then
-        --     jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
-        -- end
-
         if love.keyboard.isDown('a') then
             if jogador.x - jogador.velocidade >= 0 then
                 jogador.image = love.graphics.newImage("imagens/guts_movimento_esq.png")
@@ -134,10 +128,27 @@ gerencia.movimentacao = function(jogador)
             jogador.last_move_x = 'a'
         end
 
-        -- if not love.keyboard.isDown('a') and jogador.last_move_x == 'a' then
-        --     jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
-        -- end
+        -- MOVIMENTAÇÃO DE ATAQUE
+        if love.keyboard.isDown('j') then
+
+        end
     end
+end
+
+function gerencia.newAnimation(image, width, height, duartion)
+    local animation = {}
+    animation.spriteSheet = image
+    animation.quads = {}
+
+    for y = 0, image:getHeight() - height, height do
+        for x = 0, image:getWidth() - width, width do
+            table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
+        end
+    end
+
+    love.graphics.draw(animation.spriteSheet);
+
+    return animation
 end
 
 return gerencia
