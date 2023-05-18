@@ -139,6 +139,7 @@ gerencia.movimentacao = function(jogador)
     end
 end
 
+--Animação Sprite
 function gerencia.newAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image
@@ -156,6 +157,9 @@ function gerencia.newAnimation(image, width, height, duration)
     return animation
 end
 
-Animation = gerencia.newAnimation(love.graphics.newImage("imagens/spriteCorrida2.png"),190, 115,1)
+--Animação de corrida
+Animation = gerencia.newAnimation(love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),180, 130,1)
+
+--Animação de ataque
 
 return gerencia
