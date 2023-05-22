@@ -22,9 +22,12 @@ gerencia.desenhar = function(jogador)
         end
         love.graphics.draw(jogador.image, jogador.x, jogador.y)
 
-        --Movimentação Sprite
-        spriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
-        love.graphics.draw(Animation.spriteSheet, Animation.quads[spriteNum],500,300)
+        --Movimentação Sprite FICA PRO EDU
+
+        --spriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
+        --love.graphics.draw(Animation.spriteSheet, Animation.quads[spriteNum],500,300)
+        
+        --FICA PRO EDU
 
         --love.graphics.print("Posicao Y:        " .. jogador.y)
         -- love.graphics.print(
@@ -103,10 +106,10 @@ gerencia.movimentacao = function(jogador)
             jogador.velocidadeY = 2
             jogador.velocidade = 2
 
-            if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
+            if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and not love.keyboard.isDown('j')) then
                 jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
             else
-                if (jogador.last_move_x == 'a' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s')) then
+                if (jogador.last_move_x == 'a' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and not love.keyboard.isDown('j')) then
                     jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
                 end
             end
@@ -119,7 +122,9 @@ gerencia.movimentacao = function(jogador)
             else
                 jogador.x = jogador.x
             end
+
             jogador.last_move_x = 'd'
+
         end
 
         if love.keyboard.isDown('a') then
@@ -134,7 +139,14 @@ gerencia.movimentacao = function(jogador)
 
         -- MOVIMENTAÇÃO DE ATAQUE
         if love.keyboard.isDown('j') then
+            if(jogador.em_ataque == false)then
+                jogador.em_ataque = true
+                jogador.image = love.graphics.newImage("imagens/ataque.png")
+            end
+        end
 
+        if (not love.keyboard.isDown('j')) then
+            jogador.em_ataque = false
         end
     end
 end
@@ -158,7 +170,7 @@ function gerencia.newAnimation(image, width, height, duration)
 end
 
 --Animação de corrida
-Animation = gerencia.newAnimation(love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),180, 130,1)
+Animation = gerencia.newAnimation(love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),180, 120,1)
 
 --Animação de ataque
 

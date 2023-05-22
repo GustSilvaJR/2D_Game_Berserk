@@ -34,6 +34,7 @@ player.char.velocidade = 2
 player.char.salto = 170
 player.char.esta_saltando = false
 player.char.abaixado = false
+player.char.em_ataque = false
 player.char.inicio_salto = 0
 player.char.altura = 70
 player.char.largura = 104
