@@ -1,9 +1,6 @@
 local gerencia = {}
 Lu = require('../luaunit')
 
-
-
-
 gerencia.telaPrincipal = function()
     function love.load()
         love.window.setTitle('Berserk')
