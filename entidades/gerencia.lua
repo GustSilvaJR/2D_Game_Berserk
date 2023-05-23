@@ -29,7 +29,7 @@ gerencia.desenhar = function(jogador)
         
         --FICA PRO EDU
 
-        --love.graphics.print("Posicao Y:        " .. jogador.y)
+        love.graphics.print("Posicao Y:        " .. jogador.y)
         -- love.graphics.print(
         --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
         --     jogador.x, jogador.y)
@@ -46,7 +46,7 @@ gerencia.movimentacao = function(jogador)
         end
 
         if love.keyboard.isDown('w') then
-            jogador.velocidade = 3
+            jogador.velocidade = 4
 
             if jogador.esta_saltando == false then
                 jogador.inicio_salto = jogador.y
@@ -72,7 +72,7 @@ gerencia.movimentacao = function(jogador)
         if (love.keyboard.isDown('s') and jogador.abaixado == false) then
             if (jogador.abaixado == false) then
                 jogador.abaixado = true;
-                jogador.y = (((love.graphics.getHeight() / 5) * 3) + 41);
+                jogador.y = (((love.graphics.getHeight() / 5) * 3) + 81);
                 jogador.image = love.graphics.newImage("imagens/abaixa.png");
             end
 
@@ -87,7 +87,7 @@ gerencia.movimentacao = function(jogador)
         -- RESET ESTADO abaixado
         if (not love.keyboard.isDown('s') and jogador.abaixado == true) then
             jogador.abaixado = false;
-            jogador.y = (((love.graphics.getHeight() / 5) * 3) + 10);
+            jogador.y = (((love.graphics.getHeight() / 5) * 3) + 61);
         end
 
         -- IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
@@ -103,8 +103,8 @@ gerencia.movimentacao = function(jogador)
         if jogador.y >= Chao then
             jogador.esta_saltando = false
             jogador.esgotado = false
-            jogador.velocidadeY = 2
-            jogador.velocidade = 2
+            jogador.velocidadeY = 4.5
+            jogador.velocidade = 3.5
 
             if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and not love.keyboard.isDown('j')) then
                 jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
@@ -139,10 +139,16 @@ gerencia.movimentacao = function(jogador)
 
         -- MOVIMENTAÇÃO DE ATAQUE
         if love.keyboard.isDown('j') then
-            if(jogador.em_ataque == false)then
-                jogador.em_ataque = true
-                jogador.image = love.graphics.newImage("imagens/ataque.png")
-            end
+            --if(jogador.em_ataque == false)then
+                if(jogador.last_move_x == 'd') then
+                    jogador.em_ataque = true
+                    jogador.image = love.graphics.newImage("imagens/ataque.png")
+                    
+                end if (jogador.last_move_x == 'a') then
+                    jogador.em_ataque = true
+                    jogador.image = love.graphics.newImage("imagens/ataque_esq.png")
+                end
+            ---end
         end
 
         if (not love.keyboard.isDown('j')) then

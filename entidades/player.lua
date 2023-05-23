@@ -29,8 +29,8 @@ end
 -- Setando info do player
 player.char = {}
 player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
-player.char.velocidadeY = 4
-player.char.velocidade = 2
+player.char.velocidadeY = 4.5
+player.char.velocidade = 3.5
 player.char.salto = 170
 player.char.esta_saltando = false
 player.char.abaixado = false
