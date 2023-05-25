@@ -2,14 +2,12 @@ local gerencia = {}
 Lu = require('../luaunit')
 
 gerencia.telaPrincipal = function()
-    function love.load()
-        love.window.setTitle('Berserk')
-        love.window.setFullscreen(true)
 
-        -- love.graphics.setBackgroundColor(40 / 255, 40 / 255, 40 / 255)
+    love.window.setTitle('Berserk')
+    love.window.setFullscreen(true)
 
-        Background = love.graphics.newImage('imagens/Background.jpeg')
-    end
+    Background = love.graphics.newImage('imagens/Background.jpeg')
+
 end
 
 gerencia.desenhar = function(jogador)
@@ -19,18 +17,18 @@ gerencia.desenhar = function(jogador)
         end
         love.graphics.draw(jogador.image, jogador.x, jogador.y)
 
-        --Movimentação Sprite FICA PRO EDU
+        -- Movimentação Sprite FICA PRO EDU
 
-        --spriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
-        --love.graphics.draw(Animation.spriteSheet, Animation.quads[spriteNum],500,300)
-        
-        --FICA PRO EDU
+        -- spriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
+        -- love.graphics.draw(Animation.spriteSheet, Animation.quads[spriteNum],500,300)
+
+        -- FICA PRO EDU
 
         love.graphics.print("Posicao Y:        " .. jogador.y)
         -- love.graphics.print(
         --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
         --     jogador.x, jogador.y)
-        --love.graphics.print("\n\n\nCalc:        " .. (love.graphics.getHeight() / 5) * 3 + 36)
+        -- love.graphics.print("\n\n\nCalc:        " .. (love.graphics.getHeight() / 5) * 3 + 36)
         -- love.graphics.print("\n\n\n\n\n\nSaltando:        " .. tostring(jogador.esta_saltando), jogador.x, jogador.y)
     end
 end
@@ -103,10 +101,12 @@ gerencia.movimentacao = function(jogador)
             jogador.velocidadeY = 3
             jogador.velocidade = 3.5
 
-            if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and not love.keyboard.isDown('j')) then
+            if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and
+                not love.keyboard.isDown('j')) then
                 jogador.image = love.graphics.newImage("imagens/guts_parado_dir.png")
             else
-                if (jogador.last_move_x == 'a' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and not love.keyboard.isDown('j')) then
+                if (jogador.last_move_x == 'a' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and
+                    not love.keyboard.isDown('j')) then
                     jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
                 end
             end
@@ -136,15 +136,16 @@ gerencia.movimentacao = function(jogador)
 
         -- MOVIMENTAÇÃO DE ATAQUE
         if love.keyboard.isDown('j') then
-            --if(jogador.em_ataque == false)then
-                if(jogador.last_move_x == 'd') then
-                    jogador.em_ataque = true
-                    jogador.image = love.graphics.newImage("imagens/ataque.png")
-                    
-                end if (jogador.last_move_x == 'a') then
-                    jogador.em_ataque = true
-                    jogador.image = love.graphics.newImage("imagens/ataque_esq.png")
-                end
+            -- if(jogador.em_ataque == false)then
+            if (jogador.last_move_x == 'd') then
+                jogador.em_ataque = true
+                jogador.image = love.graphics.newImage("imagens/ataque.png")
+
+            end
+            if (jogador.last_move_x == 'a') then
+                jogador.em_ataque = true
+                jogador.image = love.graphics.newImage("imagens/ataque_esq.png")
+            end
             ---end
         end
 
@@ -154,7 +155,7 @@ gerencia.movimentacao = function(jogador)
     end
 end
 
---Animação Sprite
+-- Animação Sprite
 function gerencia.newAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image
@@ -172,9 +173,9 @@ function gerencia.newAnimation(image, width, height, duration)
     return animation
 end
 
---Animação de corrida
-Animation = gerencia.newAnimation(love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),180, 120,1)
+-- Animação de corrida
+Animation = gerencia.newAnimation(love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"), 180, 120, 1)
 
---Animação de ataque
+-- Animação de ataque
 
 return gerencia

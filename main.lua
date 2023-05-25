@@ -1,39 +1,71 @@
 io.stdout:setvbuf('no')
 
---Classes Gerenciais
+Lu = require('../luaunit')
+
+-- Classes Gerenciais
 local gerencia = require('entidades/gerencia');
 local gerencia_inimigo = require('entidades/gerencia_inimigo');
 
---Entidades
+-- Entidades
 local player = require('entidades/player')
 local pocao = require('entidades/pocao')
 local goblin = require('entidades/goblin')
 
---Instanciando Classes
+-- Instanciando Classes
 local player1 = player.novo('Gustavo')
 local goblin_1 = goblin.novo()
 local goblin_mago_1 = goblin.novo_mago()
 
---Constantes
+-- Constantes
 Teto = love.graphics.getHeight()
 Chao = (love.graphics.getHeight() / 5) * 4 + 36
 Gravidade = 0
+--------------------------------------------------------------------------------------------------
+---OrcDemon Data-----------------------------
+local orc_demon = {};
 
-gerencia.telaPrincipal()
+--Sprite Walk-------
+local spriteWalk = love.graphics.newImage("imagens/enemyOrcWarrior/Walk.png");
+
+local width_sprite = 672;
+local height_sprite = 96;
+
+local width_quad = 80;
+local height_quad = 67;
+
+local quant_quads = 7;
+--End Sprite Walk --
+
+---End OrcDemon Data-------------------------
+
+function love.load()
+    gerencia.telaPrincipal()
+    orc_demon = gerencia_inimigo.load(300, 500, 'Orc Demon')
+
+    for key, value in pairs(orc_demon) do
+        print('\t', key, value)
+    end
+
+end
+
+gerencia_inimigo.generate_sprite(orc_demon, 'walk', spriteWalk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right')
+
+function love.draw()
+    gerencia_inimigo.draw(orc_demon);
+end
+
+
 gerencia.desenhar(player.char)
-gerencia.movimentacao(player.char)
 
+gerencia.movimentacao(player.char);
 
---Adicionar Inventario
---player.obter_pocao(player1, pocao.novo())
+-- Adicionar Inventario
+-- player.obter_pocao(player1, pocao.novo())
 
---Ataque inimigo
---goblin.atacar(goblin_1 ,player1)
---goblin.atacar(goblin_1 ,player1)
---goblin.atacar(goblin_1 ,player1)
-
-
-
+-- Ataque inimigo
+-- goblin.atacar(goblin_1 ,player1)
+-- goblin.atacar(goblin_1 ,player1)
+-- goblin.atacar(goblin_1 ,player1)
 
 -- assert(#player1.pocoes == 1)
 

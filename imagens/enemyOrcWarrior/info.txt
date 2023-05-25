@@ -1,0 +1,11 @@
+Infos Sprite:
+
+Width_sprite: 672px;
+Height_sprite: 96px;
+
+Width_quad: 80px;
+Height_quad: 67px;
+
+quant_quads: 7
+
+name: walk

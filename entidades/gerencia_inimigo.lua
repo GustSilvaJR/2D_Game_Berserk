@@ -1,28 +1,37 @@
 local gerencia_inimigo = {};
 local lu = require('../luaunit');
-local inimigo = {};
+local quads = {};
+--local inimigo = {};
 
 gerencia_inimigo.load = function (posX, posY, name)
-    inimigo = {
-        posX,
-        posY,
-        name,
+    local inimigo = {
+        posX = posX,
+        posY = posY,
+        name = name,
         sprites = {},
     }
 
     return inimigo;
 end
 
-gerencia_inimigo.generate_sprite = function (enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads)
+gerencia_inimigo.generate_sprite = function (enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads, state)
+    enemy.sprites[name_sprite] = {}
+    
     enemy.sprites[name_sprite] = {
-        sprite,
-        sprite_w,
-        sprite_h,
-        quad_w,
-        quad_h
+        sprite = sprite,
+        sprite_w = sprite_w,
+        sprite_h = sprite_h,
+        quad_w = quad_w,
+        quad_h = quad_h,
+        animation = {
+            action = state,
+            idle = true,
+            frame = 1,
+            max_frames = quant_quads,
+            speed = 20,
+            timer = 0.1
+        }
     }
-
-    local quads = {}
 
     for i = 1, quant_quads do
         quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w, sprite_h);
@@ -30,9 +39,10 @@ gerencia_inimigo.generate_sprite = function (enemy, name_sprite, sprite, sprite_
 
 end
 
-gerencia_inimigo.desenha_inimigo = function(inimigo)
-    
+gerencia_inimigo.draw = function(inimigo)
+    love.graphics.draw(inimigo.sprites.walk.sprite, quads[1], inimigo.posX, inimigo.posY)
 end
+
 gerencia_inimigo.movimento = function(inimigo)
 
 end

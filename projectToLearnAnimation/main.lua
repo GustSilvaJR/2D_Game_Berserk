@@ -1,24 +1,24 @@
 _G.love = require("love")
 
-function love.load()
-    jack = {
-        x = 0,
-        y = 0,
-        sprite = {
-            image = love.graphics.newImage('sprites/jackWalk.png'),
-            width = 5352,
-            height = 569
-        }
-    }
+-- function love.load()
+--     jack = {
+--         x = 0,
+--         y = 0,
+--         sprite = {
+--             image = love.graphics.newImage('sprites/jackWalk.png'),
+--             width = 5352,
+--             height = 569
+--         }
+--     }
 
     
 
-end
+-- end
 
-function love.update(dt)
+-- function love.update(dt)
 
-end
+-- end
 
-function love.draw()
+-- function love.draw()
 
-end
+-- end
