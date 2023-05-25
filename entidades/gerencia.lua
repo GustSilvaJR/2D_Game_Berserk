@@ -69,7 +69,7 @@ gerencia.movimentacao = function(jogador)
         if (love.keyboard.isDown('s') and jogador.abaixado == false) then
             if (jogador.abaixado == false) then
                 jogador.abaixado = true;
-                jogador.y = (((love.graphics.getHeight() / 5) * 3) + 81);
+                jogador.y = (((love.graphics.getHeight() / 5) * 3) + 45);
                 jogador.image = love.graphics.newImage("imagens/abaixa.png");
             end
 
@@ -84,7 +84,7 @@ gerencia.movimentacao = function(jogador)
         -- RESET ESTADO abaixado
         if (not love.keyboard.isDown('s') and jogador.abaixado == true) then
             jogador.abaixado = false;
-            jogador.y = (((love.graphics.getHeight() / 5) * 3) + 61);
+            jogador.y = (((love.graphics.getHeight() / 5) * 3) + 16);
         end
 
         -- IMPLEMENTANDO ANIMAÇÃO PARA FIM DE QUEDA
@@ -100,7 +100,7 @@ gerencia.movimentacao = function(jogador)
         if jogador.y >= Chao then
             jogador.esta_saltando = false
             jogador.esgotado = false
-            jogador.velocidadeY = 4.5
+            jogador.velocidadeY = 3
             jogador.velocidade = 3.5
 
             if (jogador.last_move_x == 'd' and not love.keyboard.isDown('w') and not love.keyboard.isDown('s') and not love.keyboard.isDown('j')) then

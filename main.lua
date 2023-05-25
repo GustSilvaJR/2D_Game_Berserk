@@ -1,7 +1,8 @@
 io.stdout:setvbuf('no')
 
 --Classes Gerenciais
-local gerencia = require('entidades/gerencia')
+local gerencia = require('entidades/gerencia');
+local gerencia_inimigo = require('entidades/gerencia_inimigo');
 
 --Entidades
 local player = require('entidades/player')
