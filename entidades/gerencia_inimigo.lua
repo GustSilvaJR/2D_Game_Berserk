@@ -15,8 +15,10 @@ gerencia_inimigo.load = function (posX, posY, name)
 end
 
 gerencia_inimigo.generate_sprite = function (enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads, state)
-    enemy.sprites[name_sprite] = {}
+    --enemy.sprites.name_sprite = {}
     
+    table.insert(enemy.sprites, {[name_sprite] = {}})
+
     enemy.sprites[name_sprite] = {
         sprite = sprite,
         sprite_w = sprite_w,
