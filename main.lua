@@ -22,6 +22,7 @@ Chao = (love.graphics.getHeight() / 5) * 4 + 36
 Gravidade = 0
 --------------------------------------------------------------------------------------------------
 ---OrcDemon Data-----------------------------
+
 local orc_demon = {};
 
 --Sprite Walk-------
@@ -30,8 +31,8 @@ local spriteWalk = love.graphics.newImage("imagens/enemyOrcWarrior/Walk.png");
 local width_sprite = 672;
 local height_sprite = 96;
 
-local width_quad = 80;
-local height_quad = 67;
+local width_quad = 96;
+local height_quad = 96;
 
 local quant_quads = 7;
 --End Sprite Walk --
@@ -39,25 +40,21 @@ local quant_quads = 7;
 ---End OrcDemon Data-------------------------
 
 function love.load()
-    gerencia.telaPrincipal()
-    orc_demon = gerencia_inimigo.load(300, 500, 'Orc Demon')
-
-    for key, value in pairs(orc_demon) do
-        print('\t', key, value)
-    end
-
+    gerencia.telaPrincipal();
+    
+    orc_demon = gerencia_inimigo.load(300, 500, 'Orc Demon');
+    gerencia_inimigo.generate_sprite(orc_demon, 'walk', spriteWalk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right');
 end
 
-gerencia_inimigo.generate_sprite(orc_demon, 'walk', spriteWalk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right')
-
 function love.draw()
+    gerencia.draw(player.char);
     gerencia_inimigo.draw(orc_demon);
 end
 
-
-gerencia.desenhar(player.char)
-
-gerencia.movimentacao(player.char);
+function love.update(dt)
+    gerencia.update(player.char, dt)
+    gerencia_inimigo.update(orc_demon, dt)
+end
 
 -- Adicionar Inventario
 -- player.obter_pocao(player1, pocao.novo())

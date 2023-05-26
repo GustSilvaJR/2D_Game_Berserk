@@ -43,4 +43,7 @@ player.char.last_move_x = ''
 player.char.x = 0
 player.char.y = (love.graphics.getHeight() / 5) * 4 + 36
 
+-- Animation
+player.char.sprites = {}
+
 return player;
