@@ -17,22 +17,14 @@ gerencia.draw = function(jogador)
         love.graphics.draw(Background, i * Background:getWidth(), love.graphics.getHeight() / 5)
     end
 
-    if jogador.sprites.walk.animation.direction == 'right' then
-        love.graphics.draw(jogador.sprites.walk.sprite, quads[jogador.sprites.walk.animation.frame], jogador.char.posX,
-            jogador.char.posY)
+    if jogador.sprites.current.animation.direction == 'right' then
+        love.graphics.draw(jogador.sprites.current.sprite,
+            jogador.sprites.current.quads[jogador.sprites.current.animation.frame], jogador.char.x, jogador.char.y)
     else
-        love.graphics.draw(jogador.sprites.walk.sprite, quads[jogador.sprites.walk.animation.frame], jogador.char.posX,
-            jogador.char.posY, 0, -1, 1, jogador.sprites.walk.quad_w, 0)
+        love.graphics.draw(jogador.sprites.current.sprite,
+            jogador.sprites.current.quads[jogador.sprites.current.animation.frame], jogador.char.x, jogador.char.y, 0,
+            -1, 1, jogador.sprites.current.quad_w, 0)
     end
-
-    -- love.graphics.draw(jogador.image, jogador.x, jogador.y)
-
-    -- Movimentação Sprite FICA PRO EDU
-
-    -- spriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
-    -- love.graphics.draw(Animation.spriteSheet, Animation.quads[spriteNum],500,300)
-
-    -- FICA PRO EDU
 
     -- love.graphics.print("Posicao Y:        " .. jogador.y)
     -- love.graphics.print(
@@ -46,32 +38,41 @@ end
 gerencia.update = function(jogador, dt, p2)
 
     if love.keyboard.isDown('1') then
-        p2.sprites.walk.animation.idle = false;
-        p2.sprites.walk.animation.direction = 'right'
+        p2.sprites.current = p2.sprites.walk;
+
+        p2.sprites.current.animation.idle = false;
+        p2.sprites.current.animation.direction = 'right'
     elseif love.keyboard.isDown('2') then
-        p2.sprites.walk.animation.idle = false;
-        p2.sprites.walk.animation.direction = 'left'
+        p2.sprites.current = p2.sprites.walk;
+
+        p2.sprites.current.animation.idle = false;
+        p2.sprites.current.animation.direction = 'left'
     else
-        p2.sprites.walk.animation.idle = true;
-        p2.sprites.walk.animation.frame = 4;
+        p2.sprites.current.animation.idle = true;
+
+        p2.sprites.current = p2.sprites.stopped;
+
+        p2.sprites.current.animation.direction = 'right'
+        p2.sprites.current.animation.idle = false;
+        
     end
 
-    if not p2.sprites.walk.animation.idle then
-        p2.sprites.walk.animation.timer = p2.sprites.walk.animation.timer + dt;
+    if not p2.sprites.current.animation.idle then
+        p2.sprites.current.animation.timer = p2.sprites.current.animation.timer + dt;
 
-        if p2.sprites.walk.animation.timer > 0.2 then
-            p2.sprites.walk.animation.timer = 0.1;
+        if p2.sprites.current.animation.timer > 0.2 then
+            p2.sprites.current.animation.timer = 0.1;
 
-            p2.sprites.walk.animation.frame = p2.sprites.walk.animation.frame + 1;
+            p2.sprites.current.animation.frame = p2.sprites.current.animation.frame + 1;
 
-            if p2.sprites.walk.animation.direction == "right" then
-                p2.posX = p2.posX + p2.sprites.walk.animation.speed;
-            elseif p2.sprites.walk.animation.direction == "left" then
-                p2.posX = p2.posX - p2.sprites.walk.animation.speed;
+            if p2.sprites.current.animation.direction == "right" and love.keyboard.isDown('1') then
+                p2.char.x = p2.char.x + p2.sprites.current.animation.speed;
+            elseif p2.sprites.current.animation.direction == "left" and love.keyboard.isDown('2') then
+                p2.char.x = p2.char.x - p2.sprites.current.animation.speed;
             end
 
-            if p2.sprites.walk.animation.frame > p2.sprites.walk.animation.max_frames then
-                p2.sprites.walk.animation.frame = 1
+            if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
+                p2.sprites.current.animation.frame = 1
             end
         end
 
@@ -193,10 +194,10 @@ gerencia.update = function(jogador, dt, p2)
 end
 
 -- Animação Sprite
-gerencia.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
-    direction)
+gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
+    direction, current)
 
-    enemy.sprites[name_sprite] = {
+    player.sprites[name_sprite] = {
         sprite = sprite,
         sprite_w = sprite_w,
         sprite_h = sprite_h,
@@ -208,17 +209,51 @@ gerencia.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite
             frame = 1,
             max_frames = quant_quads,
             speed = 10,
-            timer = 0.1
+            timer = 1
         }
     }
 
-    for key, value in pairs(enemy.sprites.walk) do
+    for key, value in pairs(player.sprites.walk) do
         print('\t', key, value)
     end
 
+    player.sprites[name_sprite].quads = {};
     for i = 1, quant_quads do
-        quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w, sprite_h);
+        player.sprites[name_sprite].quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w,
+            sprite_h);
     end
+
+    if (current) then
+        player.sprites.current = {}
+
+        player.sprites.current = {
+            sprite = sprite,
+            sprite_w = sprite_w,
+            sprite_h = sprite_h,
+            quad_w = quad_w,
+            quad_h = quad_h,
+            animation = {
+                direction = direction,
+                idle = false,
+                frame = 1,
+                max_frames = quant_quads,
+                speed = 10,
+                timer = 1
+            }
+        }
+
+        player.sprites.current.quads = {};
+        for i = 1, quant_quads do
+            player.sprites.current.quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w,
+                sprite_h);
+        end
+
+        print("Aqui, doidao:\n")
+        for key, value in pairs(player.sprites.current) do
+            print('\t', key, value)
+        end
+    end
+
 end
 
 -- Info sprite imagens/sprites/corridaDirSpriteSheet.png quad_w->180, quad_h->120

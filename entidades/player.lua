@@ -36,25 +36,38 @@ player.char.largura = 104
 player.char.esgotado = false
 player.char.last_move_x = ''
 player.char.x = 0
-player.char.y = (love.graphics.getHeight() / 5) * 4 + 36
+player.char.y = (love.graphics.getHeight() / 5) * 4
 
 -- Animation
 player.sprites = {}
 
 ------------------------- Sprites -------------------------
-
-----Walk----
 player.data_sprites = {}
+
+----Run----
 player.data_sprites.walk = {
     sprite = love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),
 
     width_sprite = 1808,
     height_sprite = 133,
 
-    width_quad = 180,
+    width_quad = 179.5,
     height_quad = 120,
 
     quant_quads = 10
+}
+
+----Stopped----
+player.data_sprites.stopped = {
+    sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet.png"),
+
+    width_sprite = 1593,
+    height_sprite = 156,
+
+    width_quad = 227,
+    height_quad = 150,
+
+    quant_quads = 7
 }
 
 return player;
