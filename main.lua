@@ -12,7 +12,6 @@ local pocao = require('entidades/pocao')
 local goblin = require('entidades/goblin')
 
 -- Instanciando Classes
-local player1 = player.novo('Gustavo')
 local goblin_1 = goblin.novo()
 local goblin_mago_1 = goblin.novo_mago()
 
@@ -26,7 +25,7 @@ Gravidade = 0
 local orc_demon = {};
 
 --Sprite Walk-------
-local spriteWalk = love.graphics.newImage("imagens/enemyOrcWarrior/Walk.png");
+local sprite_walk = love.graphics.newImage("imagens/enemyOrcWarrior/Walk.png");
 
 local width_sprite = 672;
 local height_sprite = 96;
@@ -40,19 +39,23 @@ local quant_quads = 7;
 ---End OrcDemon Data-------------------------
 
 function love.load()
-    gerencia.telaPrincipal();
-    
+    gerencia.load();
+
     orc_demon = gerencia_inimigo.load(300, 500, 'Orc Demon');
-    gerencia_inimigo.generate_sprite(orc_demon, 'walk', spriteWalk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right');
+
+    gerencia_inimigo.generate_sprite(orc_demon, 'walk', sprite_walk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right');
+
+    gerencia.generate_sprite(player, 'walk', player.data_sprites.walk.sprite, player.data_sprites.walk.width_sprite, player.data_sprites.walk.height_sprite, player.data_sprites.walk.width_quad, player.data_sprites.walk.height_quad, player.data_sprites.walk.quant_quads, 'right');
+
 end
 
 function love.draw()
-    gerencia.draw(player.char);
+    gerencia.draw(player);
     gerencia_inimigo.draw(orc_demon);
 end
 
 function love.update(dt)
-    gerencia.update(player.char, dt)
+    gerencia.update(player.char, dt, player)
     gerencia_inimigo.update(orc_demon, dt)
 end
 

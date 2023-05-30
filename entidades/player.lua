@@ -1,13 +1,5 @@
 local player = {}
 
-function player.novo(nome)
-    return {
-        vida = 100,
-        pocoes = {},
-        nome = nome
-    }
-end
-
 function player.obter_pocao(p, pocao)
     table.insert(p.pocoes, pocao)
 end
@@ -27,6 +19,9 @@ function player.atacado(p, dano)
 end
 
 -- Setando info do player
+player.nome = "Guts"
+player.vida = 100
+player.pocoes = {}
 player.char = {}
 player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
 player.char.velocidadeY = 3
@@ -44,6 +39,22 @@ player.char.x = 0
 player.char.y = (love.graphics.getHeight() / 5) * 4 + 36
 
 -- Animation
-player.char.sprites = {}
+player.sprites = {}
+
+------------------------- Sprites -------------------------
+
+----Walk----
+player.data_sprites = {}
+player.data_sprites.walk = {
+    sprite = love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),
+
+    width_sprite = 1808,
+    height_sprite = 133,
+
+    width_quad = 180,
+    height_quad = 120,
+
+    quant_quads = 10
+}
 
 return player;

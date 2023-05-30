@@ -2,7 +2,7 @@ Lu = require('../luaunit')
 local gerencia = {}
 local quads = {}
 
-gerencia.telaPrincipal = function()
+gerencia.load = function()
 
     love.window.setTitle('Berserk')
     love.window.setFullscreen(true)
@@ -16,7 +16,16 @@ gerencia.draw = function(jogador)
     for i = 0, love.graphics.getWidth() / Background:getWidth() do
         love.graphics.draw(Background, i * Background:getWidth(), love.graphics.getHeight() / 5)
     end
-    love.graphics.draw(jogador.image, jogador.x, jogador.y)
+
+    if jogador.sprites.walk.animation.direction == 'right' then
+        love.graphics.draw(jogador.sprites.walk.sprite, quads[jogador.sprites.walk.animation.frame], jogador.char.posX,
+            jogador.char.posY)
+    else
+        love.graphics.draw(jogador.sprites.walk.sprite, quads[jogador.sprites.walk.animation.frame], jogador.char.posX,
+            jogador.char.posY, 0, -1, 1, jogador.sprites.walk.quad_w, 0)
+    end
+
+    -- love.graphics.draw(jogador.image, jogador.x, jogador.y)
 
     -- Movimentação Sprite FICA PRO EDU
 
@@ -25,7 +34,7 @@ gerencia.draw = function(jogador)
 
     -- FICA PRO EDU
 
-    love.graphics.print("Posicao Y:        " .. jogador.y)
+    -- love.graphics.print("Posicao Y:        " .. jogador.y)
     -- love.graphics.print(
     --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
     --     jogador.x, jogador.y)
@@ -34,7 +43,39 @@ gerencia.draw = function(jogador)
 
 end
 
-gerencia.update = function(jogador, dt)
+gerencia.update = function(jogador, dt, p2)
+
+    if love.keyboard.isDown('1') then
+        p2.sprites.walk.animation.idle = false;
+        p2.sprites.walk.animation.direction = 'right'
+    elseif love.keyboard.isDown('2') then
+        p2.sprites.walk.animation.idle = false;
+        p2.sprites.walk.animation.direction = 'left'
+    else
+        p2.sprites.walk.animation.idle = true;
+        p2.sprites.walk.animation.frame = 4;
+    end
+
+    if not p2.sprites.walk.animation.idle then
+        p2.sprites.walk.animation.timer = p2.sprites.walk.animation.timer + dt;
+
+        if p2.sprites.walk.animation.timer > 0.2 then
+            p2.sprites.walk.animation.timer = 0.1;
+
+            p2.sprites.walk.animation.frame = p2.sprites.walk.animation.frame + 1;
+
+            if p2.sprites.walk.animation.direction == "right" then
+                p2.posX = p2.posX + p2.sprites.walk.animation.speed;
+            elseif p2.sprites.walk.animation.direction == "left" then
+                p2.posX = p2.posX - p2.sprites.walk.animation.speed;
+            end
+
+            if p2.sprites.walk.animation.frame > p2.sprites.walk.animation.max_frames then
+                p2.sprites.walk.animation.frame = 1
+            end
+        end
+
+    end
 
     if love.keyboard.isDown('w') then
         jogador.velocidade = 4
@@ -108,27 +149,27 @@ gerencia.update = function(jogador, dt)
         end
     end
 
-    if love.keyboard.isDown('d') then
-        if jogador.x + jogador.velocidade + jogador.largura <= love.graphics.getWidth() then
-            jogador.image = love.graphics.newImage("imagens/guts_movimento_dir.png")
-            jogador.x = jogador.x + jogador.velocidade
-        else
-            jogador.x = jogador.x
-        end
+    -- if love.keyboard.isDown('d') then
+    --     if jogador.x + jogador.velocidade + jogador.largura <= love.graphics.getWidth() then
+    --         jogador.image = love.graphics.newImage("imagens/guts_movimento_dir.png")
+    --         jogador.x = jogador.x + jogador.velocidade
+    --     else
+    --         jogador.x = jogador.x
+    --     end
 
-        jogador.last_move_x = 'd'
+    --     jogador.last_move_x = 'd'
 
-    end
+    -- end
 
-    if love.keyboard.isDown('a') then
-        if jogador.x - jogador.velocidade >= 0 then
-            jogador.image = love.graphics.newImage("imagens/guts_movimento_esq.png")
-            jogador.x = jogador.x - jogador.velocidade
-        else
-            jogador.x = jogador.x
-        end
-        jogador.last_move_x = 'a'
-    end
+    -- if love.keyboard.isDown('a') then
+    --     if jogador.x - jogador.velocidade >= 0 then
+    --         jogador.image = love.graphics.newImage("imagens/guts_movimento_esq.png")
+    --         jogador.x = jogador.x - jogador.velocidade
+    --     else
+    --         jogador.x = jogador.x
+    --     end
+    --     jogador.last_move_x = 'a'
+    -- end
 
     -- MOVIMENTAÇÃO DE ATAQUE
     if love.keyboard.isDown('j') then
@@ -164,7 +205,7 @@ gerencia.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite
         animation = {
             direction = direction,
             idle = false,
-            frame = 4,
+            frame = 1,
             max_frames = quant_quads,
             speed = 10,
             timer = 0.1
@@ -180,6 +221,5 @@ gerencia.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite
     end
 end
 
---Info sprite imagens/sprites/corridaDirSpriteSheet.png quad_w->180, quad_h->120
-
+-- Info sprite imagens/sprites/corridaDirSpriteSheet.png quad_w->180, quad_h->120
 return gerencia
