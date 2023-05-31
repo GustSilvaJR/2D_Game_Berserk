@@ -35,8 +35,21 @@ player.char.altura = 70
 player.char.largura = 104
 player.char.esgotado = false
 player.char.last_move_x = ''
-player.char.x = 0
-player.char.y = (love.graphics.getHeight() / 5) * 4
+
+love.window.setFullscreen(true)
+
+local width, height = love.graphics.getDimensions();
+local background = love.graphics.newImage('imagens/Background.jpeg')
+
+local sy = love.graphics.getHeight() / background:getHeight()
+
+print("inferno \n\n\n")
+print(height)
+
+
+
+player.char.x = 0;
+player.char.y = height;
 
 -- Animation
 player.sprites = {}
@@ -64,7 +77,7 @@ player.data_sprites.stopped = {
     width_sprite = 1593,
     height_sprite = 156,
 
-    width_quad = 227,
+    width_quad = 226.5,
     height_quad = 150,
 
     quant_quads = 7

@@ -1,21 +1,34 @@
 Lu = require('../luaunit')
-local gerencia = {}
-local quads = {}
+local gerencia = {};
+local width;
+local height;
+
+local background;
 
 gerencia.load = function()
 
     love.window.setTitle('Berserk')
     love.window.setFullscreen(true)
 
-    Background = love.graphics.newImage('imagens/Background.jpeg')
+    background = love.graphics.newImage('imagens/Background.jpeg')
+
+    width, height = love.window.getDesktopDimensions();
+
+    print('Aquiii \n\n');
+    print(width, height)
+    print('Aquiii \n\n');
 
 end
 
 gerencia.draw = function(jogador)
 
-    for i = 0, love.graphics.getWidth() / Background:getWidth() do
-        love.graphics.draw(Background, i * Background:getWidth(), love.graphics.getHeight() / 5)
-    end
+    local sx = love.graphics.getWidth() / background:getWidth()
+    local sy = love.graphics.getHeight() / background:getHeight()
+    love.graphics.draw(background, 0, 0, 0, sx, sy) -- x: 0, y: 0, rot: 0, scale x and scale y
+
+    --  for i = 0, love.graphics.getWidth() / Background:getWidth() do
+    --      love.graphics.draw(Background, i * Background:getWidth(), height/2)
+    --  end
 
     if jogador.sprites.current.animation.direction == 'right' then
         love.graphics.draw(jogador.sprites.current.sprite,
@@ -54,13 +67,13 @@ gerencia.update = function(jogador, dt, p2)
 
         p2.sprites.current.animation.direction = 'right'
         p2.sprites.current.animation.idle = false;
-        
+
     end
 
     if not p2.sprites.current.animation.idle then
         p2.sprites.current.animation.timer = p2.sprites.current.animation.timer + dt;
 
-        if p2.sprites.current.animation.timer > 0.2 then
+        if p2.sprites.current.animation.timer > p2.sprites.current.animation.duration then
             p2.sprites.current.animation.timer = 0.1;
 
             p2.sprites.current.animation.frame = p2.sprites.current.animation.frame + 1;
@@ -195,7 +208,7 @@ end
 
 -- Animação Sprite
 gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
-    direction, current)
+    direction, current, duration)
 
     player.sprites[name_sprite] = {
         sprite = sprite,
@@ -209,7 +222,8 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
             frame = 1,
             max_frames = quant_quads,
             speed = 10,
-            timer = 1
+            timer = 0.1,
+            duration = duration
         }
     }
 
@@ -238,7 +252,8 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
                 frame = 1,
                 max_frames = quant_quads,
                 speed = 10,
-                timer = 1
+                timer = 1,
+                duration = duration
             }
         }
 
@@ -246,11 +261,6 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
         for i = 1, quant_quads do
             player.sprites.current.quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w,
                 sprite_h);
-        end
-
-        print("Aqui, doidao:\n")
-        for key, value in pairs(player.sprites.current) do
-            print('\t', key, value)
         end
     end
 

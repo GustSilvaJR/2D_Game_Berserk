@@ -45,8 +45,8 @@ function love.load()
 
     gerencia_inimigo.generate_sprite(orc_demon, 'walk', sprite_walk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right');
 
-    gerencia.generate_sprite(player, 'walk', player.data_sprites.walk.sprite, player.data_sprites.walk.width_sprite, player.data_sprites.walk.height_sprite, player.data_sprites.walk.width_quad, player.data_sprites.walk.height_quad, player.data_sprites.walk.quant_quads, 'right', true);
-    gerencia.generate_sprite(player, 'stopped', player.data_sprites.stopped.sprite, player.data_sprites.stopped.width_sprite, player.data_sprites.stopped.height_sprite, player.data_sprites.stopped.width_quad, player.data_sprites.stopped.height_quad, player.data_sprites.stopped.quant_quads, 'right', false);
+    gerencia.generate_sprite(player, 'walk', player.data_sprites.walk.sprite, player.data_sprites.walk.width_sprite, player.data_sprites.walk.height_sprite, player.data_sprites.walk.width_quad, player.data_sprites.walk.height_quad, player.data_sprites.walk.quant_quads, 'right', true, 0.2);
+    gerencia.generate_sprite(player, 'stopped', player.data_sprites.stopped.sprite, player.data_sprites.stopped.width_sprite, player.data_sprites.stopped.height_sprite, player.data_sprites.stopped.width_quad, player.data_sprites.stopped.height_quad, player.data_sprites.stopped.quant_quads, 'right', false, 0.3);
 
 
 end
