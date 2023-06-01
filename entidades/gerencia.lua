@@ -14,10 +14,6 @@ gerencia.load = function()
 
     width, height = love.window.getDesktopDimensions();
 
-    print('Aquiii \n\n');
-    print(width, height)
-    print('Aquiii \n\n');
-
 end
 
 gerencia.draw = function(jogador)
@@ -67,7 +63,6 @@ gerencia.update = function(jogador, dt, p2)
 
         p2.sprites.current.animation.direction = 'right'
         p2.sprites.current.animation.idle = false;
-
     end
 
     if not p2.sprites.current.animation.idle then
@@ -226,10 +221,6 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
             duration = duration
         }
     }
-
-    for key, value in pairs(player.sprites.walk) do
-        print('\t', key, value)
-    end
 
     player.sprites[name_sprite].quads = {};
     for i = 1, quant_quads do

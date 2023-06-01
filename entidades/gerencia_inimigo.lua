@@ -15,7 +15,7 @@ gerencia_inimigo.load = function(posX, posY, name)
 end
 
 gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
-    direction)
+    direction, current)
 
     enemy.sprites[name_sprite] = {
         sprite = sprite,
@@ -26,62 +26,98 @@ gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w
         animation = {
             direction = direction,
             idle = false,
-            frame = 4,
+            frame = 1,
             max_frames = quant_quads,
             speed = 10,
             timer = 0.1
         }
     }
 
-    for key, value in pairs(enemy.sprites.walk) do
-        print('\t', key, value)
+    enemy.sprites[name_sprite].quads = {};
+    for i = 1, quant_quads do
+        enemy.sprites[name_sprite].quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w,
+            sprite_h);
     end
 
-    for i = 1, quant_quads do
-        quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w, sprite_h);
+    if (current) then
+        enemy.sprites.current = {}
+
+        enemy.sprites.current = {
+            sprite = sprite,
+            sprite_w = sprite_w,
+            sprite_h = sprite_h,
+            quad_w = quad_w,
+            quad_h = quad_h,
+            animation = {
+                direction = direction,
+                idle = false,
+                frame = 1,
+                max_frames = quant_quads,
+                speed = 10,
+                timer = 0.1,
+            }
+        }
+
+        enemy.sprites.current.quads = {};
+        for i = 1, quant_quads do
+            enemy.sprites.current.quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w,
+                sprite_h);
+        end
     end
+
+    -- for i = 1, quant_quads do
+    --     quads[i] = love.graphics.newQuad(quad_w * (i - 1), 0, quad_w, quad_h, sprite_w, sprite_h);
+    -- end
 
 end
 
 gerencia_inimigo.draw = function(inimigo)
-    if inimigo.sprites.walk.animation.direction == 'right' then
-        love.graphics.draw(inimigo.sprites.walk.sprite, quads[inimigo.sprites.walk.animation.frame], inimigo.posX,
+    if inimigo.sprites.current.animation.direction == 'right' then
+        love.graphics.draw(inimigo.sprites.current.sprite, inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX,
             inimigo.posY)
     else
-        love.graphics.draw(inimigo.sprites.walk.sprite, quads[inimigo.sprites.walk.animation.frame], inimigo.posX,
-            inimigo.posY, 0, -1, 1, inimigo.sprites.walk.quad_w, 0)
+        love.graphics.draw(inimigo.sprites.current.sprite, inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX,
+            inimigo.posY, 0, -1, 1, inimigo.sprites.current.quad_w, 0)
     end
 end
 
 gerencia_inimigo.update = function(inimigo, dt)
 
     if love.keyboard.isDown('e') then
-        inimigo.sprites.walk.animation.idle = false;
-        inimigo.sprites.walk.animation.direction = 'right'
+        inimigo.sprites.current = inimigo.sprites.run;
+
+        inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'right'
     elseif love.keyboard.isDown('q') then
-        inimigo.sprites.walk.animation.idle = false;
-        inimigo.sprites.walk.animation.direction = 'left'
+        inimigo.sprites.current = inimigo.sprites.run;
+
+        inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'left'
     else
-        inimigo.sprites.walk.animation.idle = true;
-        inimigo.sprites.walk.animation.frame = 4;
+        inimigo.sprites.current.animation.idle = true;
+
+        inimigo.sprites.current = inimigo.sprites.stopped;
+
+        inimigo.sprites.current.animation.direction = 'right'
+       -- inimigo.sprites.current.animation.idle = false;
     end
 
-    if not inimigo.sprites.walk.animation.idle then
-        inimigo.sprites.walk.animation.timer = inimigo.sprites.walk.animation.timer + dt;
+    if not inimigo.sprites.current.animation.idle then
+        inimigo.sprites.current.animation.timer = inimigo.sprites.current.animation.timer + dt;
 
-        if inimigo.sprites.walk.animation.timer > 0.2 then
-            inimigo.sprites.walk.animation.timer = 0.1;
+        if inimigo.sprites.current.animation.timer > 0.2 then
+            inimigo.sprites.current.animation.timer = 0.1;
 
-            inimigo.sprites.walk.animation.frame = inimigo.sprites.walk.animation.frame + 1;
+            inimigo.sprites.current.animation.frame = inimigo.sprites.current.animation.frame + 1;
 
-            if inimigo.sprites.walk.animation.direction == "right" then
-                inimigo.posX = inimigo.posX + inimigo.sprites.walk.animation.speed;
-            elseif inimigo.sprites.walk.animation.direction == "left" then
-                inimigo.posX = inimigo.posX - inimigo.sprites.walk.animation.speed;
+            if inimigo.sprites.current.animation.direction == "right" and love.keyboard.isDown('e') then
+                inimigo.posX = inimigo.posX + inimigo.sprites.current.animation.speed;
+            elseif inimigo.sprites.current.animation.direction == "left" and love.keyboard.isDown('q') then
+                inimigo.posX = inimigo.posX - inimigo.sprites.current.animation.speed;
             end
 
-            if inimigo.sprites.walk.animation.frame > inimigo.sprites.walk.animation.max_frames then
-                inimigo.sprites.walk.animation.frame = 1
+            if inimigo.sprites.current.animation.frame > inimigo.sprites.current.animation.max_frames then
+                inimigo.sprites.current.animation.frame = 1
             end
         end
 

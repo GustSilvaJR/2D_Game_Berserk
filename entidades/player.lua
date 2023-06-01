@@ -36,6 +36,7 @@ player.char.largura = 104
 player.char.esgotado = false
 player.char.last_move_x = ''
 
+-- Setando para fullscreen para que eu possa pegar toda a largura e altura da tela
 love.window.setFullscreen(true)
 
 local width, height = love.graphics.getDimensions();
@@ -46,41 +47,59 @@ local sy = love.graphics.getHeight() / background:getHeight()
 print("inferno \n\n\n")
 print(height)
 
-
-
-player.char.x = 0;
-player.char.y = height;
-
 -- Animation
 player.sprites = {}
 
 ------------------------- Sprites -------------------------
 player.data_sprites = {}
 
-----Run----
-player.data_sprites.walk = {
-    sprite = love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),
+player.data_sprites = {
 
-    width_sprite = 1808,
-    height_sprite = 133,
+    ----Run----
+    walk = {
 
-    width_quad = 179.5,
-    height_quad = 120,
+        sprite = love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),
 
-    quant_quads = 10
+        width_sprite = 1808,
+        height_sprite = 133,
+
+        width_quad = 179.5,
+        height_quad = 120,
+
+        quant_quads = 10
+    }, ----End Run----
+
+    ----Stopped----
+    stopped = {
+        sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet.png"),
+
+        width_sprite = 1593,
+        height_sprite = 156,
+
+        width_quad = 226.5,
+        height_quad = 150,
+
+        quant_quads = 7
+    },----End Stopped----
+
+    ----Ataque----
+    ataque = {
+        sprite = love.graphics.newImage("imagens/sprites/ataqueDirSpriteSheet.png"),
+
+        width_sprite = 1574,
+        height_sprite = 158,
+
+        width_quad = 137.5,
+        height_quad = 158,
+
+        quant_quads = 11
+    } ----End Stopped----
 }
 
-----Stopped----
-player.data_sprites.stopped = {
-    sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet.png"),
+-- Setando posição do player  bom base em um sprite padrão
+player.char.x = 0;
 
-    width_sprite = 1593,
-    height_sprite = 156,
-
-    width_quad = 226.5,
-    height_quad = 150,
-
-    quant_quads = 7
-}
+Ground = height;
+player.char.y = Ground - (player.data_sprites.stopped.height_quad + 60);
 
 return player;
