@@ -89,8 +89,8 @@ player.data_sprites = {
         width_sprite = 1574,
         height_sprite = 158,
 
-        width_quad = 137.5,
-        height_quad = 158,
+        width_quad = 144,
+        height_quad = 160,
 
         quant_quads = 11
     } ----End Stopped----

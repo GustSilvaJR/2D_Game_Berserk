@@ -56,8 +56,22 @@ gerencia.update = function(jogador, dt, p2)
 
         p2.sprites.current.animation.idle = false;
         p2.sprites.current.animation.direction = 'left'
+    elseif love.keyboard.isDown('j') then
+
+        for k, v in pairs(p2.sprites) do
+            print(k)
+        end
+
+        p2.sprites.current = p2.sprites.ataque;
+
+        p2.sprites.current.animation.idle = false;
+        p2.sprites.current.animation.direction = 'right'
     else
         p2.sprites.current.animation.idle = true;
+
+        if(p2.sprites.current.name == 'ataque') then
+            p2.sprites.current.animation.frame = 1;
+        end
 
         p2.sprites.current = p2.sprites.stopped;
 
@@ -206,6 +220,7 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
     direction, current, duration)
 
     player.sprites[name_sprite] = {
+        name = name_sprite,
         sprite = sprite,
         sprite_w = sprite_w,
         sprite_h = sprite_h,

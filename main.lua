@@ -51,6 +51,10 @@ function love.load()
         player.data_sprites.stopped.width_sprite, player.data_sprites.stopped.height_sprite,
         player.data_sprites.stopped.width_quad, player.data_sprites.stopped.height_quad,
         player.data_sprites.stopped.quant_quads, 'right', false, 0.3);
+    gerencia.generate_sprite(player, 'ataque', player.data_sprites.ataque.sprite,
+        player.data_sprites.ataque.width_sprite, player.data_sprites.ataque.height_sprite,
+        player.data_sprites.ataque.width_quad, player.data_sprites.ataque.height_quad,
+        player.data_sprites.ataque.quant_quads, 'right', false, 0.3);
 
 end
 
