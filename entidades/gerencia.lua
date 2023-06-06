@@ -35,7 +35,7 @@ gerencia.draw = function(jogador)
             -1, 1, jogador.sprites.current.quad_w, 0)
     end
 
-    -- love.graphics.print("Posicao Y:        " .. jogador.y)
+     love.graphics.print("Posicao Y:        " .. jogador.char.y)
     -- love.graphics.print(
     --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
     --     jogador.x, jogador.y)

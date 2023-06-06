@@ -36,16 +36,11 @@ player.char.largura = 104
 player.char.esgotado = false
 player.char.last_move_x = ''
 
--- Setando para fullscreen para que eu possa pegar toda a largura e altura da tela
-love.window.setFullscreen(true)
 
-local width, height = love.graphics.getDimensions();
+
 local background = love.graphics.newImage('imagens/Background.jpeg')
 
 local sy = love.graphics.getHeight() / background:getHeight()
-
-print("inferno \n\n\n")
-print(height)
 
 -- Animation
 player.sprites = {}
@@ -60,31 +55,31 @@ player.data_sprites = {
 
         sprite = love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),
 
-        width_sprite = 1808,
-        height_sprite = 133,
+        width_sprite = 1003,
+        height_sprite = 158,
 
-        width_quad = 179.5,
-        height_quad = 120,
+        width_quad = 100,
+        height_quad = 158,
 
         quant_quads = 10
     }, ----End Run----
 
     ----Stopped----
     stopped = {
-        sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet2.png"),
+        sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet.png"),
 
         width_sprite = 1003,
-        height_sprite = 73,
+        height_sprite = 158,
 
-        width_quad = 142,
-        height_quad = 73,
+        width_quad = 142.7,
+        height_quad = 158,
 
         quant_quads = 7
     },----End Stopped----
 
     ----Ataque----
     ataque = {
-        sprite = love.graphics.newImage("imagens/sprites/ataqueDirSpriteSheet4.png"),
+        sprite = love.graphics.newImage("imagens/sprites/ataqueDirSpriteSheet.png"),
 
         width_sprite = 2088,
         height_sprite = 158,
@@ -99,8 +94,6 @@ player.data_sprites = {
 -- Setando posição do player  bom base em um sprite padrão
 player.char.x = 0;
 
-EndX = width;
-Ground = height;
 player.char.y = Ground - (player.data_sprites.stopped.height_quad + 60);
 
 return player;

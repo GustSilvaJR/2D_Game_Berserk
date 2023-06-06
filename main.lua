@@ -2,10 +2,16 @@ io.stdout:setvbuf('no')
 
 Lu = require('../luaunit')
 
+
+-- Setando para fullscreen para que eu possa pegar toda a largura e altura da tela
+love.window.setFullscreen(true);
+
 -- Constantes
-Teto = love.graphics.getHeight()
-Chao = (love.graphics.getHeight() / 5) * 4 + 36
-Gravidade = 0
+Teto = love.graphics.getHeight();
+Chao = (love.graphics.getHeight() / 5) * 4 + 36;
+Gravidade = 0;
+
+EndX, Ground = love.graphics.getDimensions();
 
 -- Classes Gerenciais
 local gerencia = require('entidades/gerencia');
@@ -42,6 +48,7 @@ local quant_quads = 7;
 
 function love.load()
     gerencia.load();
+    gerencia_inimigo.load();
 
     -- orc_demon = gerencia_inimigo.load(300, Ground, 'Orc Demon');
     -- gerencia_inimigo.generate_sprite(orc_demon, 'walk', sprite_walk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right');

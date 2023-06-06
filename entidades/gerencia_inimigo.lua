@@ -3,36 +3,66 @@ local lu = require('../luaunit');
 local quads = {};
 -- local inimigo = {};
 
-gerencia_inimigo.load = function(posX, posY, name)
-    local inimigo = {
-        posX = posX,
-        posY = posY,
-        name = name,
-        sprites = {}
-    }
+gerencia_inimigo.load = function()
 
-    return inimigo;
+    Dir = 0;
+    Dir_nome = 'stopped'
+    Move_px = 20;
+    State = 'peaceful'
+
+    Run = coroutine.create(function()
+        print('Inicio corroutine')
+        local clock = 2
+        while clock > 0 do
+            clock = clock - coroutine.yield(true)
+        end
+        -- waited 5 seconds, do your thing here.
+        print("End corroutine")
+
+        gerencia_inimigo.sort_move();
+    end)
+
 end
 
+-- Set state dir, dir move, move px
 gerencia_inimigo.sort_move = function()
-    --Direção--
-    local dir, dir_nome, move_p;
-    dir = math.random(2,-1);
 
-    if(dir == 1)then
-        dir_nome = 'right'
-        print('right')
+    if (Dir == 1 or Dir == 2) then
+        Dir = 0;
+        Dir_nome = 'stopped';
     else
-        dir_nome = 'left'
-        print('left')
+        -- Direção--
+        Dir = math.random(3, 0);
+
+        if (Dir == 1) then
+            Dir_nome = 'right'
+        elseif (Dir == 2) then
+            Dir_nome = 'left'
+        end
     end
-    --Fim_Direção--
+    -- Fim_Direção--
 
-    --Quantidade de pixels move--
-    move_p = math.random(19,31);
+    -- Quantidade de pixels move--
+    Move_px = math.random(9, 15);
+end
 
-    print("Movimento: "..move_p);
-    --Quantidade de pixels move--
+gerencia_inimigo.sleep_timer_to_sort = function(dt)
+
+    if (coroutine.status(Run) == "dead") then
+        Run = coroutine.create(function()
+            print('Inicio corroutine')
+            local clock = 2
+            while clock > 0 do
+                clock = clock - coroutine.yield(true)
+            end
+            -- waited 5 seconds, do your thing here.
+            print("End corroutine")
+
+            gerencia_inimigo.sort_move();
+        end)
+    end
+
+    coroutine.resume(Run, dt)
 end
 
 gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
@@ -75,7 +105,7 @@ gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w
                 frame = 1,
                 max_frames = quant_quads,
                 speed = 10,
-                timer = 0.1,
+                timer = 0.1
             }
         }
 
@@ -94,24 +124,25 @@ end
 
 gerencia_inimigo.draw = function(inimigo)
     if inimigo.sprites.current.animation.direction == 'right' then
-        love.graphics.draw(inimigo.sprites.current.sprite, inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX,
-            inimigo.posY)
+        love.graphics.draw(inimigo.sprites.current.sprite,
+            inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX, inimigo.posY)
     else
-        love.graphics.draw(inimigo.sprites.current.sprite, inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX,
-            inimigo.posY, 0, -1, 1, inimigo.sprites.current.quad_w, 0)
+        love.graphics.draw(inimigo.sprites.current.sprite,
+            inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX, inimigo.posY, 0, -1,
+            1, inimigo.sprites.current.quad_w, 0)
     end
 end
 
 gerencia_inimigo.update = function(inimigo, dt)
 
-    gerencia_inimigo.sort_move();
+    gerencia_inimigo.sleep_timer_to_sort(dt);
 
-    if love.keyboard.isDown('e') then
+    if Dir_nome == 'right' then
         inimigo.sprites.current = inimigo.sprites.run;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'right'
-    elseif love.keyboard.isDown('q') then
+    elseif Dir_nome == 'left' then
         inimigo.sprites.current = inimigo.sprites.run;
 
         inimigo.sprites.current.animation.idle = false;
@@ -121,8 +152,8 @@ gerencia_inimigo.update = function(inimigo, dt)
 
         inimigo.sprites.current = inimigo.sprites.stopped;
 
-        inimigo.sprites.current.animation.direction = 'right'
-       -- inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'left'
+        -- inimigo.sprites.current.animation.idle = false;
     end
 
     if not inimigo.sprites.current.animation.idle then
@@ -133,10 +164,20 @@ gerencia_inimigo.update = function(inimigo, dt)
 
             inimigo.sprites.current.animation.frame = inimigo.sprites.current.animation.frame + 1;
 
-            if inimigo.sprites.current.animation.direction == "right" and love.keyboard.isDown('e') then
-                inimigo.posX = inimigo.posX + inimigo.sprites.current.animation.speed;
-            elseif inimigo.sprites.current.animation.direction == "left" and love.keyboard.isDown('q') then
-                inimigo.posX = inimigo.posX - inimigo.sprites.current.animation.speed;
+            if inimigo.sprites.current.animation.direction == "right" then
+                if (inimigo.posX + Move_px < (EndX - inimigo.sprites.current.quad_w)) then
+                    inimigo.posX = inimigo.posX + Move_px;
+                else
+                    Dir_nome =  'left'
+                    Dir = 2
+                end
+            elseif inimigo.sprites.current.animation.direction == "left" then
+                if (inimigo.posX - Move_px > inimigo.sprites.current.quad_w) then
+                    inimigo.posX = inimigo.posX - Move_px;
+                else
+                    Dir_nome =  'right'
+                    Dir = 1
+                end
             end
 
             if inimigo.sprites.current.animation.frame > inimigo.sprites.current.animation.max_frames then
