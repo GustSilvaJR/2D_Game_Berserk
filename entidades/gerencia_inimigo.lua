@@ -24,41 +24,86 @@ gerencia_inimigo.load = function()
 
 end
 
--- Set state dir, dir move, move px
-gerencia_inimigo.sort_move = function()
+gerencia_inimigo.check_enemies = function(inimigo)
+    local modulo_distancia = inimigo.posX - Pos_player_x;
+    local dir = 'left';
 
-    if (Dir == 1 or Dir == 2) then
-        Dir = 0;
-        Dir_nome = 'stopped';
-    else
-        -- Direção--
-        Dir = math.random(3, 0);
-
-        if (Dir == 1) then
-            Dir_nome = 'right'
-        elseif (Dir == 2) then
-            Dir_nome = 'left'
-        end
+    if (modulo_distancia < 0) then
+        modulo_distancia = modulo_distancia * -1;
+        dir = 'right';
     end
-    -- Fim_Direção--
 
-    -- Quantidade de pixels move--
-    Move_px = math.random(9, 15);
+    if (modulo_distancia <= 300) then
+        print('ESTÁ NA ÁREA DE ATAQUE');
+        State = 'attacking';
+    end
+
+    return {
+        distancia = modulo_distancia,
+        direcao = dir
+    };
+
 end
 
-gerencia_inimigo.sleep_timer_to_sort = function(dt)
+-- Set state dir, dir move, move px
+gerencia_inimigo.sort_move = function(inimigo)
+
+    local info_player = gerencia_inimigo.check_enemies(inimigo);
+
+    if (State == 'peaceful') then
+        if (Dir == 1 or Dir == 2) then
+            Dir = 0;
+            Dir_nome = 'stopped';
+        else
+            -- Direção--
+            Dir = math.random(3, 0);
+
+            if (Dir == 1) then
+                Dir_nome = 'right'
+            elseif (Dir == 2) then
+                Dir_nome = 'left'
+            end
+        end
+        -- Fim_Direção--
+
+        -- Quantidade de pixels move--
+        Move_px = math.random(9, 15);
+    else
+
+        print(info_player.distancia .. ' | ' .. info_player.direcao)
+
+        if (info_player.distancia <= 100) then
+            Dir = 0;
+            Dir_nome = 'stopped';
+            Move_px = 0;
+        else
+
+            if (info_player.direcao == 'right') then
+                Dir = 1;
+                Dir_nome = 'right'
+            else
+                Dir = 2
+                Dir_nome = 'left'
+            end
+
+            Move_px = 10;
+        end
+    end
+end
+
+gerencia_inimigo.sleep_timer_to_sort = function(dt, inimigo)
 
     if (coroutine.status(Run) == "dead") then
         Run = coroutine.create(function()
             print('Inicio corroutine')
-            local clock = 2
+            local clock = 1
             while clock > 0 do
                 clock = clock - coroutine.yield(true)
             end
             -- waited 5 seconds, do your thing here.
             print("End corroutine")
 
-            gerencia_inimigo.sort_move();
+            gerencia_inimigo.sort_move(inimigo);
         end)
     end
 
@@ -135,7 +180,7 @@ end
 
 gerencia_inimigo.update = function(inimigo, dt)
 
-    gerencia_inimigo.sleep_timer_to_sort(dt);
+    gerencia_inimigo.sleep_timer_to_sort(dt, inimigo);
 
     if Dir_nome == 'right' then
         inimigo.sprites.current = inimigo.sprites.run;
@@ -153,7 +198,6 @@ gerencia_inimigo.update = function(inimigo, dt)
         inimigo.sprites.current = inimigo.sprites.stopped;
 
         inimigo.sprites.current.animation.direction = 'left'
-        -- inimigo.sprites.current.animation.idle = false;
     end
 
     if not inimigo.sprites.current.animation.idle then
@@ -168,14 +212,14 @@ gerencia_inimigo.update = function(inimigo, dt)
                 if (inimigo.posX + Move_px < (EndX - inimigo.sprites.current.quad_w)) then
                     inimigo.posX = inimigo.posX + Move_px;
                 else
-                    Dir_nome =  'left'
+                    Dir_nome = 'left'
                     Dir = 2
                 end
             elseif inimigo.sprites.current.animation.direction == "left" then
                 if (inimigo.posX - Move_px > inimigo.sprites.current.quad_w) then
                     inimigo.posX = inimigo.posX - Move_px;
                 else
-                    Dir_nome =  'right'
+                    Dir_nome = 'right'
                     Dir = 1
                 end
             end

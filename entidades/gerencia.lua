@@ -231,7 +231,7 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
             idle = false,
             frame = 1,
             max_frames = quant_quads,
-            speed = 10,
+            speed = 17,
             timer = 0.1,
             duration = duration
         }

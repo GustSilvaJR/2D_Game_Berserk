@@ -2,7 +2,6 @@ io.stdout:setvbuf('no')
 
 Lu = require('../luaunit')
 
-
 -- Setando para fullscreen para que eu possa pegar toda a largura e altura da tela
 love.window.setFullscreen(true);
 
@@ -10,6 +9,7 @@ love.window.setFullscreen(true);
 Teto = love.graphics.getHeight();
 Chao = (love.graphics.getHeight() / 5) * 4 + 36;
 Gravidade = 0;
+Pos_player_x = 0;
 
 EndX, Ground = love.graphics.getDimensions();
 
@@ -29,22 +29,7 @@ local goblin_mago_1 = goblin.novo_mago()
 local orc_demon_1 = orc_module.novo(EndX-200, Ground - 20, 'Orc Demon');
 
 
---------------------------------------------------------------------------------------------------
----OrcDemon Data-----------------------------
 
--- Sprite Walk-------
-local sprite_walk = love.graphics.newImage("imagens/enemyOrcWarrior/Walk.png");
-
-local width_sprite = 672;
-local height_sprite = 96;
-
-local width_quad = 96;
-local height_quad = 96;
-
-local quant_quads = 7;
--- End Sprite Walk --
-
----End OrcDemon Data-------------------------
 
 function love.load()
     gerencia.load();
@@ -73,8 +58,10 @@ function love.draw()
 end
 
 function love.update(dt)
-    gerencia.update(player.char, dt, player)
-    gerencia_inimigo.update(orc_demon_1, dt)
+    gerencia.update(player.char, dt, player);
+    gerencia_inimigo.update(orc_demon_1, dt);
+
+    Pos_player_x = player.char.x;
 end
 
 -- Adicionar Inventario

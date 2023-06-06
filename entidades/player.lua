@@ -25,7 +25,7 @@ player.pocoes = {}
 player.char = {}
 player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
 player.char.velocidadeY = 3
-player.char.velocidade = 2.5
+player.char.velocidade = 5
 player.char.salto = 170
 player.char.esta_saltando = false
 player.char.abaixado = false
@@ -58,7 +58,7 @@ player.data_sprites = {
         width_sprite = 1003,
         height_sprite = 158,
 
-        width_quad = 100,
+        width_quad = 100.3,
         height_quad = 158,
 
         quant_quads = 10
@@ -92,8 +92,8 @@ player.data_sprites = {
 }
 
 -- Setando posição do player  bom base em um sprite padrão
-player.char.x = 0;
+player.char.x = 20;
 
-player.char.y = Ground - (player.data_sprites.stopped.height_quad + 60);
+player.char.y = Ground - (player.data_sprites.stopped.height_quad + 70);
 
 return player;
