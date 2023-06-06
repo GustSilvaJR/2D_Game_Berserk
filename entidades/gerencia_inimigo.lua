@@ -14,6 +14,27 @@ gerencia_inimigo.load = function(posX, posY, name)
     return inimigo;
 end
 
+gerencia_inimigo.sort_move = function()
+    --Direção--
+    local dir, dir_nome, move_p;
+    dir = math.random(2,-1);
+
+    if(dir == 1)then
+        dir_nome = 'right'
+        print('right')
+    else
+        dir_nome = 'left'
+        print('left')
+    end
+    --Fim_Direção--
+
+    --Quantidade de pixels move--
+    move_p = math.random(19,31);
+
+    print("Movimento: "..move_p);
+    --Quantidade de pixels move--
+end
+
 gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
     direction, current)
 
@@ -82,6 +103,8 @@ gerencia_inimigo.draw = function(inimigo)
 end
 
 gerencia_inimigo.update = function(inimigo, dt)
+
+    gerencia_inimigo.sort_move();
 
     if love.keyboard.isDown('e') then
         inimigo.sprites.current = inimigo.sprites.run;

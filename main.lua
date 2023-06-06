@@ -2,6 +2,11 @@ io.stdout:setvbuf('no')
 
 Lu = require('../luaunit')
 
+-- Constantes
+Teto = love.graphics.getHeight()
+Chao = (love.graphics.getHeight() / 5) * 4 + 36
+Gravidade = 0
+
 -- Classes Gerenciais
 local gerencia = require('entidades/gerencia');
 local gerencia_inimigo = require('entidades/gerencia_inimigo');
@@ -15,12 +20,9 @@ local orc_module = require('entidades/orc_demon')
 -- Instanciando Classes
 local goblin_1 = goblin.novo()
 local goblin_mago_1 = goblin.novo_mago()
-local orc_demon_1 = orc_module.novo(0, Ground, 'Orc Demon');
+local orc_demon_1 = orc_module.novo(EndX-200, Ground - 20, 'Orc Demon');
 
--- Constantes
-Teto = love.graphics.getHeight()
-Chao = (love.graphics.getHeight() / 5) * 4 + 36
-Gravidade = 0
+
 --------------------------------------------------------------------------------------------------
 ---OrcDemon Data-----------------------------
 

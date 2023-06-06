@@ -71,26 +71,26 @@ player.data_sprites = {
 
     ----Stopped----
     stopped = {
-        sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet.png"),
+        sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet2.png"),
 
-        width_sprite = 1593,
-        height_sprite = 156,
+        width_sprite = 1003,
+        height_sprite = 73,
 
-        width_quad = 226.5,
-        height_quad = 150,
+        width_quad = 142,
+        height_quad = 73,
 
         quant_quads = 7
     },----End Stopped----
 
     ----Ataque----
     ataque = {
-        sprite = love.graphics.newImage("imagens/sprites/ataqueDirSpriteSheet.png"),
+        sprite = love.graphics.newImage("imagens/sprites/ataqueDirSpriteSheet4.png"),
 
-        width_sprite = 1574,
+        width_sprite = 2088,
         height_sprite = 158,
 
-        width_quad = 144,
-        height_quad = 160,
+        width_quad = 190,
+        height_quad = 158,
 
         quant_quads = 11
     } ----End Stopped----
@@ -99,6 +99,7 @@ player.data_sprites = {
 -- Setando posição do player  bom base em um sprite padrão
 player.char.x = 0;
 
+EndX = width;
 Ground = height;
 player.char.y = Ground - (player.data_sprites.stopped.height_quad + 60);
 
