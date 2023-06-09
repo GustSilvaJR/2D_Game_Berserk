@@ -22,6 +22,7 @@ end
 player.nome = "Guts"
 player.vida = 100
 player.pocoes = {}
+player.state = 'peaceful'
 player.char = {}
 player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
 player.char.velocidadeY = 3
@@ -34,7 +35,9 @@ player.char.inicio_salto = 0
 player.char.altura = 70
 player.char.largura = 104
 player.char.esgotado = false
-player.char.last_move_x = ''
+player.char.last_move_x = 'right'
+-- Setando posição do player  bom base em um sprite padrão
+player.char.x = 20;
 
 
 
@@ -75,7 +78,7 @@ player.data_sprites = {
         height_quad = 158,
 
         quant_quads = 7
-    },----End Stopped----
+    }, ----End Stopped----
 
     ----Ataque----
     ataque = {
@@ -90,9 +93,6 @@ player.data_sprites = {
         quant_quads = 11
     } ----End Stopped----
 }
-
--- Setando posição do player  bom base em um sprite padrão
-player.char.x = 20;
 
 player.char.y = Ground - (player.data_sprites.stopped.height_quad + 70);
 

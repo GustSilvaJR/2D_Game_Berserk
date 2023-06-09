@@ -4,18 +4,6 @@ local orc_module = {}
 
 Data_sprites = {
 
-    stopped = {
-        name = 'stopped',
-        sprite = love.graphics.newImage("imagens/enemyOrcWarrior/Idle.png"),
-        width_sprite = 480,
-        height_sprite = 96,
-
-        width_quad = 96,
-        height_quad = 96,
-
-        quant_quads = 5
-    },
-    
     run = {
 
         name = 'run',
@@ -28,6 +16,42 @@ Data_sprites = {
         height_quad = 96,
 
         quant_quads = 6
+    },
+
+    stopped = {
+        name = 'stopped',
+        sprite = love.graphics.newImage("imagens/enemyOrcWarrior/Idle.png"),
+        width_sprite = 480,
+        height_sprite = 96,
+
+        width_quad = 96,
+        height_quad = 96,
+
+        quant_quads = 5
+    },
+    
+    attack_1 = {
+        name = 'attack_1',
+        sprite = love.graphics.newImage("imagens/enemyOrcWarrior/Attack_1.png"),
+        width_sprite = 384,
+        height_sprite = 96,
+
+        width_quad = 96,
+        height_quad = 96,
+
+        quant_quads = 4
+    },
+
+    damaged = {
+        name = 'damaged',
+        sprite = love.graphics.newImage("imagens/enemyOrcWarrior/Hurt.png"),
+        width_sprite = 192,
+        height_sprite = 96,
+
+        width_quad = 96,
+        height_quad = 96,
+
+        quant_quads = 2
     }
 
 }

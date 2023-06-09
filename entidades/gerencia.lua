@@ -35,7 +35,7 @@ gerencia.draw = function(jogador)
             -1, 1, jogador.sprites.current.quad_w, 0)
     end
 
-     love.graphics.print("Posicao Y:        " .. jogador.char.y)
+    love.graphics.print("Posicao Y:        " .. jogador.char.y)
     -- love.graphics.print(
     --     "\n\nCalc:                  " .. (-1 * ((jogador.y - jogador.velocidade) - jogador.inicio_salto)),
     --     jogador.x, jogador.y)
@@ -47,35 +47,46 @@ end
 gerencia.update = function(jogador, dt, p2)
 
     if love.keyboard.isDown('1') then
+        p2.char.last_move_x = 'right';
         p2.sprites.current = p2.sprites.walk;
 
         p2.sprites.current.animation.idle = false;
         p2.sprites.current.animation.direction = 'right'
     elseif love.keyboard.isDown('2') then
+        p2.char.last_move_x = 'left';
         p2.sprites.current = p2.sprites.walk;
 
         p2.sprites.current.animation.idle = false;
         p2.sprites.current.animation.direction = 'left'
     elseif love.keyboard.isDown('j') then
-
-        for k, v in pairs(p2.sprites) do
-            print(k)
-        end
+        p2.state = 'attacking';
 
         p2.sprites.current = p2.sprites.ataque;
 
         p2.sprites.current.animation.idle = false;
-        p2.sprites.current.animation.direction = 'right'
+
+        if (p2.char.last_move_x == 'right') then
+            p2.sprites.current.animation.direction = 'right'
+        else
+            p2.sprites.current.animation.direction = 'left'
+        end
+
     else
+        p2.state = 'peaceful';
+
         p2.sprites.current.animation.idle = true;
 
-        if(p2.sprites.current.name == 'ataque') then
+        if (p2.sprites.current.name == 'ataque') then
             p2.sprites.current.animation.frame = 1;
         end
 
         p2.sprites.current = p2.sprites.stopped;
 
-        p2.sprites.current.animation.direction = 'right'
+        if (p2.char.last_move_x == 'right') then
+            p2.sprites.current.animation.direction = 'right'
+        else
+            p2.sprites.current.animation.direction = 'left'
+        end
         p2.sprites.current.animation.idle = false;
     end
 

@@ -16,12 +16,14 @@ EndX, Ground = love.graphics.getDimensions();
 -- Classes Gerenciais
 local gerencia = require('entidades/gerencia');
 local gerencia_inimigo = require('entidades/gerencia_inimigo');
+local gerencia_ataque_module = require('entidades/gerencia_ataque');
 
 -- Entidades
 local player = require('entidades/player')
 local pocao = require('entidades/pocao')
 local goblin = require('entidades/goblin')
 local orc_module = require('entidades/orc_demon')
+
 
 -- Instanciando Classes
 local goblin_1 = goblin.novo()
@@ -60,6 +62,7 @@ end
 function love.update(dt)
     gerencia.update(player.char, dt, player);
     gerencia_inimigo.update(orc_demon_1, dt);
+    gerencia_ataque_module.update(player, orc_demon_1);
 
     Pos_player_x = player.char.x;
 end

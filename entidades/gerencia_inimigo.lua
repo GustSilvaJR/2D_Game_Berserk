@@ -34,8 +34,7 @@ gerencia_inimigo.check_enemies = function(inimigo)
     end
 
     if (modulo_distancia <= 300) then
-        print('ESTÁ NA ÁREA DE ATAQUE');
-        State = 'attacking';
+        State = 'attention';
     end
 
     return {
@@ -70,12 +69,29 @@ gerencia_inimigo.sort_move = function(inimigo)
         Move_px = math.random(9, 15);
     else
 
-        print(info_player.distancia .. ' | ' .. info_player.direcao)
-
         if (info_player.distancia <= 100) then
-            Dir = 0;
-            Dir_nome = 'stopped';
-            Move_px = 0;
+
+            if (info_player.distancia <= 50) then
+                if (info_player.direcao == 'right') then
+                    Dir = 2;
+                    Dir_nome = 'left'
+                    Move_px = 5;
+                else
+                    Dir = 1
+                    Dir_nome = 'right'
+                    Move_px = 5;
+                end
+            else
+                if (info_player.direcao == 'right') then
+                    Dir = 1;
+                    Dir_nome = 'right'
+                else
+                    Dir = 2
+                    Dir_nome = 'left'
+                end
+                Move_px = 0;
+                State = 'attacking'
+            end
         else
 
             if (info_player.direcao == 'right') then
@@ -95,13 +111,11 @@ gerencia_inimigo.sleep_timer_to_sort = function(dt, inimigo)
 
     if (coroutine.status(Run) == "dead") then
         Run = coroutine.create(function()
-            print('Inicio corroutine')
             local clock = 1
             while clock > 0 do
                 clock = clock - coroutine.yield(true)
             end
             -- waited 5 seconds, do your thing here.
-            print("End corroutine")
 
             gerencia_inimigo.sort_move(inimigo);
         end)
@@ -182,13 +196,33 @@ gerencia_inimigo.update = function(inimigo, dt)
 
     gerencia_inimigo.sleep_timer_to_sort(dt, inimigo);
 
-    if Dir_nome == 'right' then
+    if Dir_nome == 'right' and not(State=='attacking') and not(State=='damaged') then
         inimigo.sprites.current = inimigo.sprites.run;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'right'
-    elseif Dir_nome == 'left' then
+    elseif Dir_nome == 'left' and not(State=='attacking') and not(State=='damaged') then
         inimigo.sprites.current = inimigo.sprites.run;
+
+        inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'left'
+    elseif (Dir_nome == 'right') and (State=='attacking') then
+        inimigo.sprites.current = inimigo.sprites.attack_1;
+
+        inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'right'
+    elseif (Dir_nome == 'left') and (State=='attacking') then
+        inimigo.sprites.current = inimigo.sprites.attack_1;
+
+        inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'left'
+    elseif (Dir_nome == 'right') and (State=='damaged') then
+        inimigo.sprites.current = inimigo.sprites.damaged;
+
+        inimigo.sprites.current.animation.idle = false;
+        inimigo.sprites.current.animation.direction = 'right'
+    elseif (Dir_nome == 'left') and (State=='damaged') then
+        inimigo.sprites.current = inimigo.sprites.damaged;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'left'
