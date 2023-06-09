@@ -13,8 +13,6 @@ function gerencia_ataque_module.update(player, enemy)
         dir = 'left';
     end
 
-    local previous_enemy_state = State;
-
     if player.state == 'attacking' and modulo_distancia<=140 and player.char.last_move_x == dir then
         print('Acertou');
         State = 'damaged';
