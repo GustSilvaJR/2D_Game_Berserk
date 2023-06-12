@@ -68,11 +68,12 @@ function orc_module.load_sprites(orc, data)
 end
 
 function orc_module.novo(posX, posY, name)
-    local data_enemy = inimigo.novo('25', 'Orc');
+    local data_enemy = inimigo.novo('25', 'Orc', 100);
     local orc_demon = {};
 
     orc_demon.forca = data_enemy.forca;
     orc_demon.categoria = data_enemy.categoria;
+    orc_demon.vida = data_enemy.vida;
     orc_demon.posX = posX;
     orc_demon.posY = posY - (Data_sprites.stopped.height_quad + 60);
     orc_demon.name = name;

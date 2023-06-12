@@ -21,6 +21,7 @@ end
 -- Setando info do player
 player.nome = "Guts"
 player.vida = 100
+player.dano_espada = 25
 player.pocoes = {}
 player.state = 'peaceful'
 player.char = {}

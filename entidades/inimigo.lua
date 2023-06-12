@@ -1,9 +1,10 @@
 local inimigo = {}
 
-function inimigo.novo (forca, categoria)
+function inimigo.novo (forca, categoria, vida)
     return {
         forca = forca,
-        categoria = categoria
+        categoria = categoria,
+        vida = vida
     }
 end
 
