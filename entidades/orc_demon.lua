@@ -67,6 +67,8 @@ function orc_module.load_sprites(orc, data)
         data.width_quad, data.height_quad, data.quant_quads, 'right', curr);
 end
 
+--function orc_module.keep_track(orc)
+
 function orc_module.novo(posX, posY, name)
     local data_enemy = inimigo.novo('25', 'Orc', 100);
     local orc_demon = {};

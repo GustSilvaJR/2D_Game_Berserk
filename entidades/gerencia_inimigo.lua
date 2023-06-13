@@ -1,7 +1,10 @@
 local gerencia_inimigo = {};
 local lu = require('../luaunit');
 local quads = {};
--- local inimigo = {};
+
+Teste = '';
+
+Inimigos = {};
 
 gerencia_inimigo.load = function()
 
@@ -24,6 +27,10 @@ gerencia_inimigo.load = function()
 
 end
 
+gerencia_inimigo.add_enemy = function(enemy)
+    table.insert(Inimigos, enemy);
+end
+
 gerencia_inimigo.check_enemies = function(inimigo)
     local modulo_distancia = inimigo.posX - Pos_player_x;
     local dir = 'left';
@@ -33,7 +40,7 @@ gerencia_inimigo.check_enemies = function(inimigo)
         dir = 'right';
     end
 
-    if (modulo_distancia <= 300) then
+    if (modulo_distancia <= 300 and not(State == 'death')) then
         State = 'attention';
     end
 
@@ -69,7 +76,7 @@ gerencia_inimigo.sort_move = function(inimigo)
         Move_px = math.random(9, 15);
     else
 
-        if (info_player.distancia <= 100) then
+        if (info_player.distancia <= 100 and not(State == 'death')) then
 
             if (info_player.distancia <= 50) then
                 if (info_player.direcao == 'right') then
@@ -182,13 +189,18 @@ gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w
 end
 
 gerencia_inimigo.draw = function(inimigo)
-    if inimigo.sprites.current.animation.direction == 'right' then
-        love.graphics.draw(inimigo.sprites.current.sprite,
-            inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX, inimigo.posY)
+    if (State == 'death') then
+        print('foi de lobby');
+
     else
-        love.graphics.draw(inimigo.sprites.current.sprite,
-            inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX, inimigo.posY, 0, -1,
-            1, inimigo.sprites.current.quad_w, 0)
+        if inimigo.sprites.current.animation.direction == 'right' then
+            love.graphics.draw(inimigo.sprites.current.sprite,
+                inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX, inimigo.posY)
+        else            
+            love.graphics.draw(inimigo.sprites.current.sprite,
+                inimigo.sprites.current.quads[inimigo.sprites.current.animation.frame], inimigo.posX, inimigo.posY, 0,
+                -1, 1, inimigo.sprites.current.quad_w, 0)
+        end
     end
 end
 
@@ -196,32 +208,32 @@ gerencia_inimigo.update = function(inimigo, dt)
 
     gerencia_inimigo.sleep_timer_to_sort(dt, inimigo);
 
-    if Dir_nome == 'right' and not(State=='attacking') and not(State=='damaged') then
+    if Dir_nome == 'right' and not (State == 'attacking') and not (State == 'damaged') then
         inimigo.sprites.current = inimigo.sprites.run;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'right'
-    elseif Dir_nome == 'left' and not(State=='attacking') and not(State=='damaged') then
+    elseif Dir_nome == 'left' and not (State == 'attacking') and not (State == 'damaged') then
         inimigo.sprites.current = inimigo.sprites.run;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'left'
-    elseif (Dir_nome == 'right') and (State=='attacking') then
+    elseif (Dir_nome == 'right') and (State == 'attacking') then
         inimigo.sprites.current = inimigo.sprites.attack_1;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'right'
-    elseif (Dir_nome == 'left') and (State=='attacking') then
+    elseif (Dir_nome == 'left') and (State == 'attacking') then
         inimigo.sprites.current = inimigo.sprites.attack_1;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'left'
-    elseif (Dir_nome == 'right') and (State=='damaged') then
+    elseif (Dir_nome == 'right') and (State == 'damaged') then
         inimigo.sprites.current = inimigo.sprites.damaged;
 
         inimigo.sprites.current.animation.idle = false;
         inimigo.sprites.current.animation.direction = 'right'
-    elseif (Dir_nome == 'left') and (State=='damaged') then
+    elseif (Dir_nome == 'left') and (State == 'damaged') then
         inimigo.sprites.current = inimigo.sprites.damaged;
 
         inimigo.sprites.current.animation.idle = false;

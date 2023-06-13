@@ -1,4 +1,6 @@
 Lu = require('../luaunit')
+local gerencia_ataque = require('entidades/gerencia_ataque')
+
 local gerencia = {};
 local width;
 local height;
@@ -105,6 +107,12 @@ gerencia.update = function(jogador, dt, p2)
             end
 
             if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
+                                
+                if (p2.state == 'attacking') then
+                    print('to passando aqui')
+                    gerencia_ataque.valida_ataque_player(p2)
+                end
+
                 p2.sprites.current.animation.frame = 1
             end
         end

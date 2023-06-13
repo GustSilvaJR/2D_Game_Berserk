@@ -28,9 +28,10 @@ local orc_module = require('entidades/orc_demon')
 -- Instanciando Classes
 local goblin_1 = goblin.novo()
 local goblin_mago_1 = goblin.novo_mago()
-local orc_demon_1 = orc_module.novo(EndX-200, Ground - 20, 'Orc Demon');
+local orc_demon_1 = orc_module.novo(EndX-200, Ground - 20, 'Orc Demon_1');
 
-
+--Cadastrando Inimigos
+gerencia_inimigo.add_enemy(orc_demon_1);
 
 
 function love.load()
@@ -62,10 +63,11 @@ end
 function love.update(dt)
     gerencia.update(player.char, dt, player);
     gerencia_inimigo.update(orc_demon_1, dt);
-    gerencia_ataque_module.update(player, orc_demon_1);
 
     Pos_player_x = player.char.x;
 end
+
+
 
 -- Adicionar Inventario
 -- player.obter_pocao(player1, pocao.novo())
