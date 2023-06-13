@@ -92,6 +92,19 @@ player.data_sprites = {
         height_quad = 158,
 
         quant_quads = 11
+    }, ----End Stopped----
+    
+    ----Death----
+    death = {
+        sprite = love.graphics.newImage("imagens/sprites/mortoSpriteSheet.png"),
+
+        width_sprite = 800,
+        height_sprite = 158,
+
+        width_quad = 200,
+        height_quad = 158,
+
+        quant_quads = 4
     } ----End Stopped----
 }
 

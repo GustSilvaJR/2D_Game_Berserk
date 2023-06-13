@@ -20,19 +20,13 @@ local gerencia_ataque_module = require('entidades/gerencia_ataque');
 
 -- Entidades
 local player = require('entidades/player')
-local pocao = require('entidades/pocao')
-local goblin = require('entidades/goblin')
 local orc_module = require('entidades/orc_demon')
 
-
 -- Instanciando Classes
-local goblin_1 = goblin.novo()
-local goblin_mago_1 = goblin.novo_mago()
-local orc_demon_1 = orc_module.novo(EndX-200, Ground - 20, 'Orc Demon_1');
+local orc_demon_1 = orc_module.novo(EndX - 200, Ground - 20, 'Orc Demon_1');
 
---Cadastrando Inimigos
+-- Cadastrando Inimigos
 gerencia_inimigo.add_enemy(orc_demon_1);
-
 
 function love.load()
     gerencia.load();
@@ -51,7 +45,11 @@ function love.load()
     gerencia.generate_sprite(player, 'ataque', player.data_sprites.ataque.sprite,
         player.data_sprites.ataque.width_sprite, player.data_sprites.ataque.height_sprite,
         player.data_sprites.ataque.width_quad, player.data_sprites.ataque.height_quad,
-        player.data_sprites.ataque.quant_quads, 'right', false, 0.3);
+        player.data_sprites.ataque.quant_quads, 'right', false, 0.2);
+    gerencia.generate_sprite(player, 'death', player.data_sprites.death.sprite,
+        player.data_sprites.death.width_sprite, player.data_sprites.death.height_sprite,
+        player.data_sprites.death.width_quad, player.data_sprites.death.height_quad,
+        player.data_sprites.death.quant_quads, 'right', false, 0.3);
 
 end
 
@@ -62,27 +60,8 @@ end
 
 function love.update(dt)
     gerencia.update(player.char, dt, player);
-    gerencia_inimigo.update(orc_demon_1, dt);
+    gerencia_inimigo.update(orc_demon_1, player, dt);
 
     Pos_player_x = player.char.x;
 end
 
-
-
--- Adicionar Inventario
--- player.obter_pocao(player1, pocao.novo())
-
--- Ataque inimigo
--- goblin.atacar(goblin_1 ,player1)
--- goblin.atacar(goblin_1 ,player1)
--- goblin.atacar(goblin_1 ,player1)
-
--- assert(#player1.pocoes == 1)
-
--- for k,v in pairs(goblin_1) do
---     local val = goblin_1[k];
-
---     if(val) then
---     print(k.." : "..goblin_1[k]);
---     end
--- end

@@ -8,4 +8,4 @@ function inimigo.novo (forca, categoria, vida)
     }
 end
 
-return inimigo 
+return inimigo;

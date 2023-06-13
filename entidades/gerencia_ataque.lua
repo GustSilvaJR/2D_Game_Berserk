@@ -3,10 +3,10 @@ local gerencia_ataque_module = {}
 gerencia_ataque_module.update = function (player, enemy)
 end
 
-gerencia_ataque_module.valida_ataque_player = function(player)
+gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
 
 
-    local modulo_distancia = player.char.x - Inimigos[1].posX;
+    local modulo_distancia = player.char.x - enemy.posX;
     local dir;
 
     if (modulo_distancia < 0) then
@@ -17,21 +17,33 @@ gerencia_ataque_module.valida_ataque_player = function(player)
     end
 
     if player.state == 'attacking' and not(State == 'death') and modulo_distancia <= 140 and player.char.last_move_x == dir then
-        State = 'death';
 
-        print("Current Pré Ataque HP Orc: " .. Inimigos[1].vida);
+        print("Current Pré Ataque HP Orc: " .. enemy.vida);
         print('Acertou');
-        --State = 'damaged';
-        Inimigos[1].vida = Inimigos[1].vida - player.dano_espada;
-        print("Current HP Orc: " .. Inimigos[1].vida);
 
-        
-        Inimigos[1].sprites.current.sprite = false;
-        Inimigos[1].sprites.run.sprite = false;
-        Inimigos[1].sprites.stopped.sprite = false;
-        Inimigos[1].sprites.attack_1.sprite = false;
-        Inimigos[1].sprites.damaged.sprite = false;
-        
+        --State = 'damaged';
+        enemy.vida = enemy.vida - player.dano_espada;
+        print("Current HP Orc: " .. enemy.vida);
+
+        if(enemy.vida <= 0)then
+            State = 'death';
+        end
+
+    end
+
+    if State == 'attacking' and modulo_distancia <= 100 and player.char.last_move_x == dir then
+
+        print("Current Pré Ataque HP Player: " .. player.vida);
+        print('Orc Acertou');
+
+        --State = 'damaged';
+        player.vida = player.vida - enemy.forca;
+        print("Current HP Player: " .. player.vida);
+
+        if(player.vida <= 0)then
+            player.state = 'death';
+        end
+
     end
 end
 

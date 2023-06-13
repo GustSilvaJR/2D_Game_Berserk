@@ -15,7 +15,8 @@ Data_sprites = {
         width_quad = 95,
         height_quad = 96,
 
-        quant_quads = 6
+        quant_quads = 6,
+        duration = 0.2
     },
 
     stopped = {
@@ -27,7 +28,8 @@ Data_sprites = {
         width_quad = 96,
         height_quad = 96,
 
-        quant_quads = 5
+        quant_quads = 5,
+        duration = 0.2
     },
     
     attack_1 = {
@@ -39,7 +41,8 @@ Data_sprites = {
         width_quad = 96,
         height_quad = 96,
 
-        quant_quads = 4
+        quant_quads = 4,
+        duration = 0.3
     },
 
     damaged = {
@@ -51,7 +54,21 @@ Data_sprites = {
         width_quad = 96,
         height_quad = 96,
 
-        quant_quads = 2
+        quant_quads = 2,
+        duration = 0.2
+    },
+
+    death = {
+        name = 'death',
+        sprite = love.graphics.newImage("imagens/enemyOrcWarrior/Death2.png"),
+        width_sprite = 404,
+        height_sprite = 96,
+
+        width_quad = 92,
+        height_quad = 93,
+
+        quant_quads = 4,
+        duration = 0.2
     }
 
 }
@@ -64,7 +81,7 @@ function orc_module.load_sprites(orc, data)
     end
 
     gerencia_inimigo.generate_sprite(orc, data.name, data.sprite, data.width_sprite, data.height_sprite,
-        data.width_quad, data.height_quad, data.quant_quads, 'right', curr);
+        data.width_quad, data.height_quad, data.quant_quads, 'right', curr, data.duration);
 end
 
 --function orc_module.keep_track(orc)
