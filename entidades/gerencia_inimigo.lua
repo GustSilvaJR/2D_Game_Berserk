@@ -249,7 +249,7 @@ gerencia_inimigo.update = function(inimigo, player, dt)
             inimigo.sprites.current.animation.direction = 'left'
         end
     else
-        print('capotei o corsa')
+
         inimigo.sprites.current = inimigo.sprites.death;
 
         inimigo.sprites.current.animation.idle = false;

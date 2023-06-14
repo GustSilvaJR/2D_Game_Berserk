@@ -93,7 +93,7 @@ gerencia.update = function(jogador, dt, p2)
             p2.sprites.current.animation.idle = false;
         end
     else
-        print('capotei o corsa')
+        
         p2.sprites.current = p2.sprites.death;
 
         p2.sprites.current.animation.idle = false;

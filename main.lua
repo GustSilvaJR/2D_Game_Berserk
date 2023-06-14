@@ -29,6 +29,12 @@ local orc_demon_1 = orc_module.novo(EndX - 200, Ground - 20, 'Orc Demon_1');
 gerencia_inimigo.add_enemy(orc_demon_1);
 
 function love.load()
+
+    music = love.audio.newSource('songs/theme/ds.mp3', 'static')
+    music:setLooping(true) -- so it doesnt stop
+    music:setVolume(0.5)
+    music:play()
+
     gerencia.load();
     gerencia_inimigo.load();
 
@@ -46,10 +52,9 @@ function love.load()
         player.data_sprites.ataque.width_sprite, player.data_sprites.ataque.height_sprite,
         player.data_sprites.ataque.width_quad, player.data_sprites.ataque.height_quad,
         player.data_sprites.ataque.quant_quads, 'right', false, 0.2);
-    gerencia.generate_sprite(player, 'death', player.data_sprites.death.sprite,
-        player.data_sprites.death.width_sprite, player.data_sprites.death.height_sprite,
-        player.data_sprites.death.width_quad, player.data_sprites.death.height_quad,
-        player.data_sprites.death.quant_quads, 'right', false, 0.3);
+    gerencia.generate_sprite(player, 'death', player.data_sprites.death.sprite, player.data_sprites.death.width_sprite,
+        player.data_sprites.death.height_sprite, player.data_sprites.death.width_quad,
+        player.data_sprites.death.height_quad, player.data_sprites.death.quant_quads, 'right', false, 0.3);
 
 end
 

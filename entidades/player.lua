@@ -57,7 +57,7 @@ player.data_sprites = {
     ----Run----
     walk = {
 
-        sprite = love.graphics.newImage("imagens/sprites/corridaDirSpriteSheet.png"),
+        sprite = love.graphics.newImage("imagens/sprites/teste.png"),
 
         width_sprite = 1003,
         height_sprite = 158,
