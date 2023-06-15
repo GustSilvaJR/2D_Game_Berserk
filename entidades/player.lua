@@ -4,19 +4,7 @@ function player.obter_pocao(p, pocao)
     table.insert(p.pocoes, pocao)
 end
 
-function player.atacado(p, dano)
-    if p.vida > 0 then
-        p.vida = p.vida - dano
 
-        if p.vida < 0 then
-            print("Apos o ataque, " .. p.nome .. " morreu!")
-        else
-            print("Apos o ataque, " .. p.nome .. " tem HP:" .. p.vida)
-        end
-    else
-        print(p.nome .. " ja esta morto!")
-    end
-end
 
 -- Setando info do player
 player.nome = "Guts"
@@ -24,6 +12,7 @@ player.vida = 100
 player.dano_espada = 25
 player.pocoes = {}
 player.state = 'peaceful'
+player.defesa_bloq = 15
 player.char = {}
 player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
 player.char.velocidadeY = 3
@@ -37,6 +26,7 @@ player.char.altura = 70
 player.char.largura = 104
 player.char.esgotado = false
 player.char.last_move_x = 'right'
+
 -- Setando posição do player  bom base em um sprite padrão
 player.char.x = 20;
 
@@ -57,55 +47,81 @@ player.data_sprites = {
     ----Run----
     walk = {
 
-        sprite = love.graphics.newImage("imagens/sprites/teste.png"),
+        sprite = love.graphics.newImage("imagens/sprites/newImagesIuri/ANDANDO.png"),
 
-        width_sprite = 1003,
-        height_sprite = 158,
+        width_sprite = 1733,
+        height_sprite =200,
 
-        width_quad = 100.3,
-        height_quad = 158,
+        width_quad = 172,
+        height_quad = 200,
 
         quant_quads = 10
     }, ----End Run----
 
     ----Stopped----
     stopped = {
-        sprite = love.graphics.newImage("imagens/sprites/paradoDirSpriteSheet.png"),
+        sprite = love.graphics.newImage("imagens/sprites/newImagesIuri/PARADO.png"),
 
-        width_sprite = 1003,
-        height_sprite = 158,
+        width_sprite = 1332,
+        height_sprite = 200,
 
-        width_quad = 142.7,
-        height_quad = 158,
+        width_quad = 190.5,
+        height_quad = 200,
 
         quant_quads = 7
     }, ----End Stopped----
 
     ----Ataque----
-    ataque = {
-        sprite = love.graphics.newImage("imagens/sprites/ataqueDirSpriteSheet.png"),
+    attack = {
+        sprite = love.graphics.newImage("imagens/sprites/newImagesIuri/ATK1.png"),
 
-        width_sprite = 2088,
-        height_sprite = 158,
+        width_sprite = 2780,
+        height_sprite = 200,
 
-        width_quad = 190,
-        height_quad = 158,
+        width_quad = 252,
+        height_quad = 200,
 
         quant_quads = 11
+    }, ----End Stopped----
+
+    ----Defesa----
+    defense = {
+        sprite = love.graphics.newImage("imagens/sprites/newImagesIuri/DEFESA.png"),
+
+        width_sprite = 100,
+        height_sprite = 200,
+
+        width_quad = 100,
+        height_quad = 200,
+
+        quant_quads = 1
     }, ----End Stopped----
     
     ----Death----
     death = {
-        sprite = love.graphics.newImage("imagens/sprites/mortoSpriteSheet.png"),
+        sprite = love.graphics.newImage("imagens/sprites/newImagesIuri/MORTO.png"),
 
-        width_sprite = 800,
-        height_sprite = 158,
+        width_sprite = 805,
+        height_sprite = 200,
 
         width_quad = 200,
-        height_quad = 158,
+        height_quad = 200,
 
         quant_quads = 4
-    } ----End Stopped----
+    }, ----End Stopped----
+
+    ----Hp_bar----
+    hp_bar = {
+        sprite = love.graphics.newImage("imagens/sprites/hpBar/HP_BAR.png"),
+
+        width_sprite = 1320,
+        height_sprite = 98,
+
+        width_quad = 220,
+        height_quad = 98,
+
+        quant_quads = 6
+    } ----End Hp_bar----
 }
 
 player.char.y = Ground - (player.data_sprites.stopped.height_quad + 70);

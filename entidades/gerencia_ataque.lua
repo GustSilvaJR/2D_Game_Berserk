@@ -18,11 +18,17 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
 
     if player.state == 'attacking' and not(State == 'death') and modulo_distancia <= 140 and player.char.last_move_x == dir then
 
+        local defense = 0;
+
+        if(not(State == 'attacking')) then
+            State = 'damaged'
+            defense = 10;
+        end
+
         print("Current Pré Ataque HP Orc: " .. enemy.vida);
         print('Acertou');
 
-        --State = 'damaged';
-        enemy.vida = enemy.vida - player.dano_espada;
+        enemy.vida = enemy.vida - (player.dano_espada - defense);
         print("Current HP Orc: " .. enemy.vida);
 
         if(enemy.vida <= 0)then
@@ -36,8 +42,18 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
         print("Current Pré Ataque HP Player: " .. player.vida);
         print('Orc Acertou');
 
-        --State = 'damaged';
-        player.vida = player.vida - enemy.forca;
+        if(player.state == 'defense')then
+            player.vida = player.vida - (enemy.forca - player.defesa_bloq);
+            if(not(I == 6))then
+                I = I+1;
+            end
+        else
+            player.vida = player.vida - enemy.forca;
+            if(not(I == 6))then
+                I = I+1;
+            end
+        end
+
         print("Current HP Player: " .. player.vida);
 
         if(player.vida <= 0)then

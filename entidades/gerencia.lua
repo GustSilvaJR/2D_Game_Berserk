@@ -64,9 +64,22 @@ gerencia.update = function(jogador, dt, p2)
         elseif love.keyboard.isDown('j') then
             p2.state = 'attacking';
 
-            p2.sprites.current = p2.sprites.ataque;
+            p2.sprites.current = p2.sprites.attack;
 
             p2.sprites.current.animation.idle = false;
+
+            if (p2.char.last_move_x == 'right') then
+                p2.sprites.current.animation.direction = 'right'
+            else
+                p2.sprites.current.animation.direction = 'left'
+            end
+
+        elseif love.keyboard.isDown('k') then
+            p2.state = 'defense';
+
+            p2.sprites.current.animation.idle = false;
+
+            p2.sprites.current = p2.sprites.defense;
 
             if (p2.char.last_move_x == 'right') then
                 p2.sprites.current.animation.direction = 'right'
@@ -79,7 +92,7 @@ gerencia.update = function(jogador, dt, p2)
 
             p2.sprites.current.animation.idle = true;
 
-            if (p2.sprites.current.name == 'ataque') then
+            if (p2.sprites.current.name == 'attack') then
                 p2.sprites.current.animation.frame = 1;
             end
 
@@ -110,16 +123,15 @@ gerencia.update = function(jogador, dt, p2)
                 p2.sprites.current.animation.frame = p2.sprites.current.animation.frame + 1;
             end
 
-            if p2.sprites.current.animation.direction == "right" and love.keyboard.isDown('d') and not(p2.state == 'death') then
+            if p2.sprites.current.animation.direction == "right" and love.keyboard.isDown('d') and not(p2.state == 'death')  then
                 p2.char.x = p2.char.x + p2.sprites.current.animation.speed;
-            elseif p2.sprites.current.animation.direction == "left" and love.keyboard.isDown('a') and not(p2.state == 'death') then
+            elseif p2.sprites.current.animation.direction == "left" and love.keyboard.isDown('a') and not(p2.state == 'death')  then
                 p2.char.x = p2.char.x - p2.sprites.current.animation.speed;
             end
 
             if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
 
                 if (p2.state == 'attacking') then
-                    print('to passando aqui')
                     gerencia_ataque.valida_ataque(p2, Inimigos[1], true)
                 end
 
@@ -199,25 +211,6 @@ gerencia.update = function(jogador, dt, p2)
                 jogador.image = love.graphics.newImage("imagens/guts_parado_esq.png")
             end
         end
-    end
-
-    -- MOVIMENTAÇÃO DE ATAQUE
-    if love.keyboard.isDown('j') then
-        -- if(jogador.em_ataque == false)then
-        if (jogador.last_move_x == 'd') then
-            jogador.em_ataque = true
-            jogador.image = love.graphics.newImage("imagens/ataque.png")
-
-        end
-        if (jogador.last_move_x == 'a') then
-            jogador.em_ataque = true
-            jogador.image = love.graphics.newImage("imagens/ataque_esq.png")
-        end
-        ---end
-    end
-
-    if (not love.keyboard.isDown('j')) then
-        jogador.em_ataque = false
     end
 
 end

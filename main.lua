@@ -10,6 +10,7 @@ Teto = love.graphics.getHeight();
 Chao = (love.graphics.getHeight() / 5) * 4 + 36;
 Gravidade = 0;
 Pos_player_x = 0;
+I = 1;
 
 EndX, Ground = love.graphics.getDimensions();
 
@@ -48,19 +49,43 @@ function love.load()
         player.data_sprites.stopped.width_sprite, player.data_sprites.stopped.height_sprite,
         player.data_sprites.stopped.width_quad, player.data_sprites.stopped.height_quad,
         player.data_sprites.stopped.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'ataque', player.data_sprites.ataque.sprite,
-        player.data_sprites.ataque.width_sprite, player.data_sprites.ataque.height_sprite,
-        player.data_sprites.ataque.width_quad, player.data_sprites.ataque.height_quad,
-        player.data_sprites.ataque.quant_quads, 'right', false, 0.2);
+    gerencia.generate_sprite(player, 'attack', player.data_sprites.attack.sprite,
+        player.data_sprites.attack.width_sprite, player.data_sprites.attack.height_sprite,
+        player.data_sprites.attack.width_quad, player.data_sprites.attack.height_quad,
+        player.data_sprites.attack.quant_quads, 'right', false, 0.2);
     gerencia.generate_sprite(player, 'death', player.data_sprites.death.sprite, player.data_sprites.death.width_sprite,
         player.data_sprites.death.height_sprite, player.data_sprites.death.width_quad,
         player.data_sprites.death.height_quad, player.data_sprites.death.quant_quads, 'right', false, 0.3);
+    gerencia.generate_sprite(player, 'defense', player.data_sprites.defense.sprite,
+        player.data_sprites.defense.width_sprite, player.data_sprites.defense.height_sprite,
+        player.data_sprites.defense.width_quad, player.data_sprites.defense.height_quad,
+        player.data_sprites.defense.quant_quads, 'right', false, 0.3);
+    gerencia.generate_sprite(player, 'hp_bar', player.data_sprites.hp_bar.sprite,
+        player.data_sprites.hp_bar.width_sprite, player.data_sprites.hp_bar.height_sprite,
+        player.data_sprites.hp_bar.width_quad, player.data_sprites.hp_bar.height_quad,
+        player.data_sprites.hp_bar.quant_quads, 'right', false, 0.3);
 
 end
 
 function love.draw()
+
     gerencia.draw(player);
     gerencia_inimigo.draw(orc_demon_1);
+
+    -- Desenhando Hp do personagem
+    love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[I], 0, 0);
+
+    local sx,sy = 75,35
+
+	local c = player.vida/player.vida
+
+	--local color = (128, 0, 0) -- red by 0 and green by 1
+	love.graphics.setColor(255, 0, 0, 1)
+	love.graphics.rectangle('fill',sx,1.5*sy,200,30, 10, 10, 0)
+
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.rectangle('line',sx,1.5*sy,200,30, 10, 10, 0)
+    love.graphics.setColor(1, 1, 1)
 end
 
 function love.update(dt)
