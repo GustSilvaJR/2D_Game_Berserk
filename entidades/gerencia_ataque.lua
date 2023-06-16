@@ -43,14 +43,20 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
         print('Orc Acertou');
 
         if(player.state == 'defense')then
-            player.vida = player.vida - (enemy.forca - player.defesa_bloq);
-            if(not(I == 6))then
-                I = I+1;
+            if(player.vida > 0)then
+                player.vida = player.vida - (enemy.forca - player.defesa_bloq);
+
+                if player.vida < 0 then
+                    player.vida = 0;
+                end
             end
         else
-            player.vida = player.vida - enemy.forca;
-            if(not(I == 6))then
-                I = I+1;
+            if(player.vida > 0)then
+                player.vida = player.vida - enemy.forca;
+
+                if player.vida < 0 then
+                    player.vida = 0;
+                end
             end
         end
 

@@ -30,12 +30,6 @@ player.char.last_move_x = 'right'
 -- Setando posição do player  bom base em um sprite padrão
 player.char.x = 20;
 
-
-
-local background = love.graphics.newImage('imagens/Background.jpeg')
-
-local sy = love.graphics.getHeight() / background:getHeight()
-
 -- Animation
 player.sprites = {}
 
@@ -114,14 +108,27 @@ player.data_sprites = {
     hp_bar = {
         sprite = love.graphics.newImage("imagens/sprites/hpBar/HP_BAR.png"),
 
-        width_sprite = 1320,
-        height_sprite = 98,
+        width_sprite = 85,
+        height_sprite = 99,
 
-        width_quad = 220,
-        height_quad = 98,
+        width_quad = 85,
+        height_quad = 99,
 
-        quant_quads = 6
-    } ----End Hp_bar----
+        quant_quads = 1
+    }, ----End Hp_bar----
+
+     ----text_player_death----
+     text_player_death = {
+        sprite = love.graphics.newImage('imagens/background/text_death.png');
+
+        width_sprite = 1760,
+        height_sprite = 35,
+
+        width_quad = 440,
+        height_quad = 35,
+
+        quant_quads = 4
+    } ----text_player_death----
 }
 
 player.char.y = Ground - (player.data_sprites.stopped.height_quad + 70);

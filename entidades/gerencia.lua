@@ -5,28 +5,11 @@ local gerencia = {};
 local width;
 local height;
 
-local background;
-
 gerencia.load = function()
-
-    love.window.setTitle('Berserk')
-    love.window.setFullscreen(true)
-
-    background = love.graphics.newImage('imagens/Background.jpeg')
-
     width, height = love.window.getDesktopDimensions();
-
 end
 
 gerencia.draw = function(jogador)
-
-    local sx = love.graphics.getWidth() / background:getWidth()
-    local sy = love.graphics.getHeight() / background:getHeight()
-    love.graphics.draw(background, 0, 0, 0, sx, sy) -- x: 0, y: 0, rot: 0, scale x and scale y
-
-    --  for i = 0, love.graphics.getWidth() / Background:getWidth() do
-    --      love.graphics.draw(Background, i * Background:getWidth(), height/2)
-    --  end
 
     if jogador.sprites.current.animation.direction == 'right' then
         love.graphics.draw(jogador.sprites.current.sprite,
