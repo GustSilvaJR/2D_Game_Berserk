@@ -42,7 +42,7 @@ Data_sprites = {
         height_quad = 150,
 
         quant_quads = 4,
-        duration = 0.3
+        duration = 0.5
     },
 
     damaged = {
@@ -96,6 +96,11 @@ function orc_module.novo(posX, posY, name)
     orc_demon.posX = posX;
     orc_demon.posY = posY - (Data_sprites.stopped.height_quad + 60);
     orc_demon.name = name;
+
+    --orc songs attacks
+    orc_demon.song_attacks = {}
+    orc_demon.song_attacks.normal_attack = love.audio.newSource('songs/attacks/orc/normal_attack.mp3', 'static');
+
     orc_demon.sprites = {};
 
     for k, v in pairs(Data_sprites) do

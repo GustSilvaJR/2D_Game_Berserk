@@ -32,19 +32,28 @@ end
 gerencia.update = function(jogador, dt, p2)
     if (not (p2.state == 'death')) then
 
-        if love.keyboard.isDown('d') then
-            p2.char.last_move_x = 'right';
-            p2.sprites.current = p2.sprites.walk;
+        if love.keyboard.isDown('d') and not (p2.state == 'damaged') then
+            if not (p2.state == 'saltando') then
+                p2.char.last_move_x = 'right';
+                p2.sprites.current = p2.sprites.walk;
 
-            p2.sprites.current.animation.idle = false;
-            p2.sprites.current.animation.direction = 'right'
-        elseif love.keyboard.isDown('a') then
-            p2.char.last_move_x = 'left';
-            p2.sprites.current = p2.sprites.walk;
+                p2.sprites.current.animation.idle = false;
+                p2.sprites.current.animation.direction = 'right'
+            else
+                p2.sprites.current.animation.direction = 'right'
+            end
 
-            p2.sprites.current.animation.idle = false;
-            p2.sprites.current.animation.direction = 'left'
-        elseif love.keyboard.isDown('j') then
+        elseif love.keyboard.isDown('a') and not (p2.state == 'damaged') then
+            if not (p2.state == 'saltando') then
+                p2.char.last_move_x = 'left';
+                p2.sprites.current = p2.sprites.walk;
+
+                p2.sprites.current.animation.idle = false;
+                p2.sprites.current.animation.direction = 'left'
+            else
+                p2.sprites.current.animation.direction = 'left'
+            end
+        elseif love.keyboard.isDown('j') and not (p2.state == 'damaged') then
             p2.state = 'attacking';
 
             p2.sprites.current = p2.sprites.attack;
@@ -57,7 +66,7 @@ gerencia.update = function(jogador, dt, p2)
                 p2.sprites.current.animation.direction = 'left'
             end
 
-        elseif love.keyboard.isDown('k') then
+        elseif love.keyboard.isDown('k') and not (p2.state == 'damaged') then
             p2.state = 'defense';
 
             p2.sprites.current.animation.idle = false;
@@ -70,26 +79,81 @@ gerencia.update = function(jogador, dt, p2)
                 p2.sprites.current.animation.direction = 'left'
             end
 
-        else
-            p2.state = 'peaceful';
+        elseif love.keyboard.isDown('s') and not (p2.state == 'damaged') then
+            p2.state = 'defense';
 
-            p2.sprites.current.animation.idle = true;
+            p2.sprites.current.animation.idle = false;
 
-            if (p2.sprites.current.name == 'attack') then
-                p2.sprites.current.animation.frame = 1;
-            end
-
-            p2.sprites.current = p2.sprites.stopped;
+            p2.sprites.current = p2.sprites.abaixando;
 
             if (p2.char.last_move_x == 'right') then
                 p2.sprites.current.animation.direction = 'right'
             else
                 p2.sprites.current.animation.direction = 'left'
             end
+
+        elseif love.keyboard.isDown('w') and not (p2.state == 'damaged') then
+            p2.state = 'saltando';
+
             p2.sprites.current.animation.idle = false;
+
+            p2.sprites.current = p2.sprites.pulando;
+
+            if (p2.char.last_move_x == 'right') then
+                p2.sprites.current.animation.direction = 'right'
+            else
+                p2.sprites.current.animation.direction = 'left'
+            end
+
+        elseif love.keyboard.isDown('lshift') and not (p2.state == 'damaged') then
+            p2.state = 'rolamento';
+
+            p2.sprites.current.animation.idle = false;
+
+            p2.sprites.current = p2.sprites.rolamento;
+
+            if (p2.char.last_move_x == 'right') then
+                p2.sprites.current.animation.direction = 'right'
+            else
+                p2.sprites.current.animation.direction = 'left'
+            end
+        elseif love.keyboard.isDown('space') and not (p2.state == 'damaged') then
+            if (p2.especial == 100 and p2.especial_state == false) then
+                p2.especial_state = true;
+                p2.state = 'especial';
+
+                p2.sprites.current.animation.idle = false;
+
+                p2.sprites.current = p2.sprites.especial;
+
+                if (p2.char.last_move_x == 'right') then
+                    p2.sprites.current.animation.direction = 'right'
+                else
+                    p2.sprites.current.animation.direction = 'left'
+                end
+            end
+
+        else
+            if not (p2.state == 'saltando') and not (p2.state == 'damaged') then
+                p2.state = 'peaceful';
+
+                if (p2.sprites.current.name == 'attack') then
+                    p2.sprites.current.animation.frame = 1;
+                end
+
+                p2.sprites.current = p2.sprites.stopped;
+
+                if (p2.char.last_move_x == 'right') then
+                    p2.sprites.current.animation.direction = 'right'
+                else
+                    p2.sprites.current.animation.direction = 'left'
+                end
+                p2.sprites.current.animation.idle = false;
+            end
+
         end
     else
-        
+
         p2.sprites.current = p2.sprites.death;
 
         p2.sprites.current.animation.idle = false;
@@ -102,29 +166,106 @@ gerencia.update = function(jogador, dt, p2)
         if p2.sprites.current.animation.timer > p2.sprites.current.animation.duration then
             p2.sprites.current.animation.timer = 0.1;
 
-            if( not(p2.state == 'death' and p2.sprites.current.animation.frame == p2.sprites.current.animation.max_frames) )then
+            if (not (p2.state == 'death' and p2.sprites.current.animation.frame ==
+                p2.sprites.current.animation.max_frames) and not (p2.state == 'saltando')) then
                 p2.sprites.current.animation.frame = p2.sprites.current.animation.frame + 1;
             end
 
-            if p2.sprites.current.animation.direction == "right" and love.keyboard.isDown('d') and not(p2.state == 'death')  then
-                p2.char.x = p2.char.x + p2.sprites.current.animation.speed;
-            elseif p2.sprites.current.animation.direction == "left" and love.keyboard.isDown('a') and not(p2.state == 'death')  then
-                p2.char.x = p2.char.x - p2.sprites.current.animation.speed;
-            end
+            if (p2.sprites.current.animation.direction == "right" and
+                (love.keyboard.isDown('d') or love.keyboard.isDown('lshift')) and not (p2.state == 'death')) then
 
-            if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
-
-                if (p2.state == 'attacking') then
-                    gerencia_ataque.valida_ataque(p2, Inimigos[1], true)
+                if (p2.state == 'rolamento') then
+                    p2.char.x = p2.char.x + p2.sprites.current.animation.speed + 10;
+                else
+                    p2.char.x = p2.char.x + p2.sprites.current.animation.speed;
                 end
 
-                p2.sprites.current.animation.frame = 1
+            elseif (p2.sprites.current.animation.direction == "left" and
+                (love.keyboard.isDown('a') or love.keyboard.isDown('lshift')) and not (p2.state == 'death')) then
+
+                if (p2.state == 'rolamento') then
+                    p2.char.x = p2.char.x - p2.sprites.current.animation.speed - 10;
+                else
+                    p2.char.x = p2.char.x - p2.sprites.current.animation.speed;
+                end
+            end
+
+            if p2.state == 'saltando' then
+
+                if (p2.sprites.current.animation.frame == p2.sprites.current.animation.max_frames and p2.char.y <
+                    Ground_player) or (p2.state == 'saltando' and not (love.keyboard.isDown('w'))) then
+
+                    p2.sprites.current.animation.frame = p2.sprites.current.animation.max_frames;
+                    p2.char.y = p2.char.y + p2.sprites.current.animation.speed;
+
+                    if (p2.char.y >= Ground_player) then
+                        p2.char.y = Ground_player;
+
+                        p2.sprites.current.animation.frame = 1;
+                        p2.state = 'peaceful';
+
+                        p2.sprites.current = p2.sprites.stopped;
+
+                        if (p2.char.last_move_x == 'right') then
+                            p2.sprites.current.animation.direction = 'right'
+                        else
+                            p2.sprites.current.animation.direction = 'left'
+                        end
+                        p2.sprites.current.animation.idle = false;
+                    end
+                else
+                    p2.sprites.current.animation.frame = p2.sprites.current.animation.frame + 1;
+                    p2.char.y = p2.char.y - p2.sprites.current.animation.speed - 20;
+                end
+            else
+
+                -- Caso for um ataque, colocar som
+                if p2.sprites.current.animation.frame == math.floor(p2.sprites.current.animation.max_frames / 2) and
+                    p2.state == 'attacking' then
+                    p2.song_attacks.normal_attack:setLooping(false)
+                    p2.song_attacks.normal_attack:setVolume(1)
+                    p2.song_attacks.normal_attack:play()
+                end
+
+                if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
+
+                    if (p2.state == 'attacking' or p2.state == 'especial') then
+                        gerencia_ataque.valida_ataque(p2, Inimigos[1], true)
+
+                        if (p2.state == 'especial') then
+                            p2.especial = 0;
+                            p2.state = 'peaceful';
+                            p2.especial_state = false;
+
+                            p2.sprites.current.animation.frame = 1;
+                            p2.state = 'peaceful';
+
+                            p2.sprites.current = p2.sprites.stopped;
+
+                            if (p2.char.last_move_x == 'right') then
+                                p2.sprites.current.animation.direction = 'right'
+                            else
+                                p2.sprites.current.animation.direction = 'left'
+                            end
+                            p2.sprites.current.animation.idle = false;
+                        end
+
+                    end
+
+                    if (p2.state == 'damaged') then
+                        p2.sprites.current.animation.frame = 1
+                        p2.state = 'peaceful';
+                    else
+
+                        p2.sprites.current.animation.frame = 1
+                    end
+                end
             end
         end
 
     end
 
-    if love.keyboard.isDown('w') then
+    if love.keyboard.isDown('1') then
         jogador.velocidade = 4
 
         if jogador.esta_saltando == false then
@@ -143,12 +284,12 @@ gerencia.update = function(jogador, dt, p2)
         end
     end
 
-    if (not love.keyboard.isDown('w') and jogador.esta_saltando) then
+    if (not love.keyboard.isDown('1') and jogador.esta_saltando) then
         jogador.velocidade = 5
         jogador.y = jogador.y + 4
     end
 
-    if (love.keyboard.isDown('s') and jogador.abaixado == false) then
+    if (love.keyboard.isDown('2') and jogador.abaixado == false) then
         if (jogador.abaixado == false) then
             jogador.abaixado = true;
             jogador.y = (((love.graphics.getHeight() / 5) * 3) + 45);
@@ -164,7 +305,7 @@ gerencia.update = function(jogador, dt, p2)
     end
 
     -- RESET ESTADO abaixado
-    if (not love.keyboard.isDown('s') and jogador.abaixado == true) then
+    if (not love.keyboard.isDown('2') and jogador.abaixado == true) then
         jogador.abaixado = false;
         jogador.y = (((love.graphics.getHeight() / 5) * 3) + 16);
     end
@@ -230,6 +371,7 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
         player.sprites.current = {}
 
         player.sprites.current = {
+            name = name_sprite,
             sprite = sprite,
             sprite_w = sprite_w,
             sprite_h = sprite_h,

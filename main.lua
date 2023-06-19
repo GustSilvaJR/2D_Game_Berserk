@@ -28,7 +28,7 @@ local orc_module = require('entidades/orc_demon')
 local orc_demon_1 = orc_module.novo(EndX - 200, Ground - 20, 'Orc Demon_1');
 
 -- Background
-local background;
+local background_phase1, background_death;
 local sx;
 local sy;
 
@@ -43,13 +43,14 @@ function love.load()
     love.window.setTitle('Berserk')
     love.window.setFullscreen(true)
 
-    background = love.graphics.newImage('imagens/background/background.jpeg')
+    background_phase1, background_death = love.graphics.newImage('imagens/background/background.jpeg'),
+        love.graphics.newImage('imagens/background/background_death.png');
 
-    sx = love.graphics.getWidth() / background:getWidth()
-    sy = love.graphics.getHeight() / background:getHeight()
+    sx = love.graphics.getWidth() / background_phase1:getWidth()
+    sy = love.graphics.getHeight() / background_phase1:getHeight()
 
     Music:setLooping(true) -- so it doesnt stop
-    Music:setVolume(0.001)
+    Music:setVolume(0.01)
     Music:play()
 
     gerencia.load();
@@ -84,6 +85,26 @@ function love.load()
         player.data_sprites.text_player_death.width_sprite, player.data_sprites.text_player_death.height_sprite,
         player.data_sprites.text_player_death.width_quad, player.data_sprites.text_player_death.height_quad,
         player.data_sprites.text_player_death.quant_quads, 'right', false, 0.3);
+    gerencia.generate_sprite(player, 'damaged', player.data_sprites.damaged.sprite,
+        player.data_sprites.damaged.width_sprite, player.data_sprites.damaged.height_sprite,
+        player.data_sprites.damaged.width_quad, player.data_sprites.damaged.height_quad,
+        player.data_sprites.damaged.quant_quads, 'right', false, 0.2);
+    gerencia.generate_sprite(player, 'abaixando', player.data_sprites.abaixando.sprite,
+        player.data_sprites.abaixando.width_sprite, player.data_sprites.abaixando.height_sprite,
+        player.data_sprites.abaixando.width_quad, player.data_sprites.abaixando.height_quad,
+        player.data_sprites.abaixando.quant_quads, 'right', false, 0.3);
+    gerencia.generate_sprite(player, 'pulando', player.data_sprites.pulando.sprite,
+        player.data_sprites.pulando.width_sprite, player.data_sprites.pulando.height_sprite,
+        player.data_sprites.pulando.width_quad, player.data_sprites.pulando.height_quad,
+        player.data_sprites.pulando.quant_quads, 'right', false, 0.2);
+    gerencia.generate_sprite(player, 'rolamento', player.data_sprites.rolamento.sprite,
+        player.data_sprites.rolamento.width_sprite, player.data_sprites.rolamento.height_sprite,
+        player.data_sprites.rolamento.width_quad, player.data_sprites.rolamento.height_quad,
+        player.data_sprites.rolamento.quant_quads, 'right', false, 0.25);
+    gerencia.generate_sprite(player, 'especial', player.data_sprites.especial.sprite,
+        player.data_sprites.especial.width_sprite, player.data_sprites.especial.height_sprite,
+        player.data_sprites.especial.width_quad, player.data_sprites.especial.height_quad,
+        player.data_sprites.especial.quant_quads, 'right', false, 0.2);
 
 end
 
@@ -93,17 +114,17 @@ function love.draw()
         -- Resetando auxiliadores morte
         death_aux_song = 0;
         player.sprites.text_player_death.animation.idle = true;
-        background = love.graphics.newImage('imagens/background/background.jpeg')
-        player.state = 'peaceful'
 
-        love.graphics.draw(background, 0, 0, 0, sx, sy) -- x: 0, y: 0, rot: 0, scale x and scale y
+        sx = love.graphics.getWidth() / background_phase1:getWidth();
+        sy = love.graphics.getHeight() / background_phase1:getHeight();
+
+        love.graphics.draw(background_phase1, 0, 0, 0, sx, sy) -- x: 0, y: 0, rot: 0, scale x and scale y
 
         gerencia.draw(player);
         gerencia_inimigo.draw(orc_demon_1);
 
+        -- BARRA DE HP
         local h_bar_x, h_bar_y = 67, 37;
-
-        local c = player.vida / player.vida;
 
         love.graphics.setColor(love.math.colorFromBytes(168, 20, 0));
         love.graphics.rectangle('fill', h_bar_x, 1.5 * h_bar_y, player.vida * 1.5, 23, 10, 10, 0);
@@ -114,19 +135,33 @@ function love.draw()
 
         -- Desenhando Hp do personagem
         love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
+        -- FIM BARRA DE HP
+
+        -- BARRA ESPECIAL
+        local s_bar_x, s_bar_y = 71, 55;
+
+        love.graphics.setColor(love.math.colorFromBytes(255, 143, 0));
+        love.graphics.rectangle('fill', s_bar_x, 1.5 * s_bar_y, player.especial * 1.4, 5, 5, 0);
+
+        love.graphics.setColor(0, 0, 0);
+        love.graphics.rectangle('line', s_bar_x, 1.5 * s_bar_y, player.especial_max * 1.4, 5, 5, 0);
+        love.graphics.setColor(255, 255, 255);
+
+        -- Desenhando Hp do personagem
+        love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
+        -- FIM BARRA DE HP
 
     else
         player.sprites.text_player_death.animation.idle = false;
         -- Background de morte
-        background = love.graphics.newImage('imagens/background/background_death.png');
-        sx = love.graphics.getWidth() / background:getWidth();
-        sy = love.graphics.getHeight() / background:getHeight();
+        sx = love.graphics.getWidth() / background_death:getWidth();
+        sy = love.graphics.getHeight() / background_death:getHeight();
 
-        love.graphics.draw(background, 0, 0, 0, sx, sy); -- x: 0, y: 0, rot: 0, scale x and scale y
+        love.graphics.draw(background_death, 0, 0, 0, sx, sy); -- x: 0, y: 0, rot: 0, scale x and scale y
 
         love.graphics.draw(player.sprites.text_player_death.sprite,
-            player.sprites.text_player_death.quads[player.sprites.text_player_death.animation.frame],
-            love.graphics.getWidth() / 2 - player.sprites.text_player_death.quad_w / 2, love.graphics.getHeight() / 2);
+            player.sprites.text_player_death.quads[player.sprites.text_player_death.animation.frame], 10,
+            love.graphics.getHeight() - (love.graphics.getHeight() / 8));
 
         -- Musica de morte
         if (death_aux_song == 0) then
@@ -140,16 +175,30 @@ function love.draw()
 
         if love.keyboard.isDown('space') then
             player.vida = 100;
+            Plane_alive = true;
+            player.state = 'peaceful';
+            player.char.x = 20;
+
+            orc_demon_1.posX = EndX - 200;
+            State = 'peaceful';
+            print(player.state);
         end
     end
 
 end
 
 function love.update(dt)
+
     gerencia.update(player.char, dt, player);
     gerencia_inimigo.update(orc_demon_1, player, dt);
 
     Pos_player_x = player.char.x;
+
+    if (player.state == 'death') then
+        Plane_alive = false
+    else
+        Plane_alive = true
+    end
 
     -- Sprite texto morte do player
     if not (player.sprites.text_player_death.animation.idle) then
