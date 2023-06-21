@@ -42,7 +42,7 @@ Data_sprites = {
         height_quad = 150,
 
         quant_quads = 4,
-        duration = 0.5
+        duration = 0.4
     },
 
     damaged = {

@@ -10,7 +10,9 @@ Teto = love.graphics.getHeight();
 Chao = (love.graphics.getHeight() / 5) * 4 + 36;
 Gravidade = 0;
 Pos_player_x = 0;
+
 Plane_alive = true;
+Cenario = 'forest';
 
 EndX, Ground = love.graphics.getDimensions();
 Music = love.audio.newSource('songs/theme/ds.mp3', 'static')
@@ -28,7 +30,7 @@ local orc_module = require('entidades/orc_demon')
 local orc_demon_1 = orc_module.novo(EndX - 200, Ground - 20, 'Orc Demon_1');
 
 -- Background
-local background_phase1, background_death;
+local background_phase1, background_phase2, background_death;
 local sx;
 local sy;
 
@@ -46,6 +48,8 @@ function love.load()
     background_phase1, background_death = love.graphics.newImage('imagens/background/background.jpeg'),
         love.graphics.newImage('imagens/background/background_death.png');
 
+    background_phase2 = love.graphics.newImage('imagens/background/background_hell.png'); 
+
     sx = love.graphics.getWidth() / background_phase1:getWidth()
     sy = love.graphics.getHeight() / background_phase1:getHeight()
 
@@ -55,9 +59,6 @@ function love.load()
 
     gerencia.load();
     gerencia_inimigo.load();
-
-    -- orc_demon = gerencia_inimigo.load(300, Ground, 'Orc Demon');
-    -- gerencia_inimigo.generate_sprite(orc_demon, 'walk', sprite_walk, width_sprite, height_sprite, width_quad, height_quad, quant_quads, 'right');
 
     gerencia.generate_sprite(player, 'walk', player.data_sprites.walk.sprite, player.data_sprites.walk.width_sprite,
         player.data_sprites.walk.height_sprite, player.data_sprites.walk.width_quad,
@@ -111,6 +112,8 @@ end
 function love.draw()
 
     if (Plane_alive) then
+        if(Cenario == 'forest')then
+
         -- Resetando auxiliadores morte
         death_aux_song = 0;
         player.sprites.text_player_death.animation.idle = true;
@@ -150,6 +153,47 @@ function love.draw()
         -- Desenhando Hp do personagem
         love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
         -- FIM BARRA DE HP
+
+        elseif(Cenario == 'hell') then  
+            
+            print('To no inferno')
+
+            --Gerando cenário
+            sx = love.graphics.getWidth() / background_phase2:getWidth()
+            sy = love.graphics.getHeight() / background_phase2:getHeight()
+
+            love.graphics.draw(background_phase2, 0, 0, 0, sx, sy) -- x: 0, y: 0, rot: 0, scale x and scale y
+
+            gerencia.draw(player);
+
+            -- BARRA DE HP
+            local h_bar_x, h_bar_y = 67, 37;
+
+            love.graphics.setColor(love.math.colorFromBytes(168, 20, 0));
+            love.graphics.rectangle('fill', h_bar_x, 1.5 * h_bar_y, player.vida * 1.5, 23, 10, 10, 0);
+
+            love.graphics.setColor(0, 0, 0);
+            love.graphics.rectangle('line', h_bar_x, 1.5 * h_bar_y, player.vida * 1.5, 23, 10, 10, 0);
+            love.graphics.setColor(255, 255, 255);
+
+            -- Desenhando Hp do personagem
+            love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
+            -- FIM BARRA DE HP
+
+            -- BARRA ESPECIAL
+            local s_bar_x, s_bar_y = 71, 55;
+
+            love.graphics.setColor(love.math.colorFromBytes(255, 143, 0));
+            love.graphics.rectangle('fill', s_bar_x, 1.5 * s_bar_y, player.especial * 1.4, 5, 5, 0);
+
+            love.graphics.setColor(0, 0, 0);
+            love.graphics.rectangle('line', s_bar_x, 1.5 * s_bar_y, player.especial_max * 1.4, 5, 5, 0);
+            love.graphics.setColor(255, 255, 255);
+
+            -- Desenhando Hp do personagem
+            love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
+            -- FIM BARRA DE HP
+        end
 
     else
         player.sprites.text_player_death.animation.idle = false;
@@ -198,6 +242,13 @@ function love.update(dt)
         Plane_alive = false
     else
         Plane_alive = true
+    end
+
+    print(State);
+
+    if(State == 'death' and player.char.x >= EndX - 25) then
+        print('teste')
+        Cenario = 'hell';
     end
 
     -- Sprite texto morte do player
