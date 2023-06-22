@@ -8,4 +8,4 @@ Height_quad: 67px;
 
 quant_quads: 7
 
-name: walk
+name: run

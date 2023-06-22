@@ -2,7 +2,7 @@ local inimigo = require('entidades/inimigo')
 local gerencia_inimigo = require('entidades/gerencia_inimigo')
 local orc_module = {}
 
-Data_sprites = {
+local data_sprites = {
 
     run = {
 
@@ -22,6 +22,7 @@ Data_sprites = {
     stopped = {
         name = 'stopped',
         sprite = love.graphics.newImage("imagens/enemyOrcWarrior/PARADO.png"),
+
         width_sprite = 900,
         height_sprite = 150,
 
@@ -35,6 +36,7 @@ Data_sprites = {
     attack_1 = {
         name = 'attack_1',
         sprite = love.graphics.newImage("imagens/enemyOrcWarrior/ATK1.png"),
+        
         width_sprite = 640,
         height_sprite = 150,
 
@@ -88,15 +90,8 @@ function orc_module.load_sprites(orc, data)
 --function orc_module.keep_track(orc)
 
 function orc_module.novo(posX, posY, name)
-    local data_enemy = inimigo.novo('20', 'Orc', 100);
     local orc_demon = {};
-
-    orc_demon.forca = data_enemy.forca;
-    orc_demon.categoria = data_enemy.categoria;
-    orc_demon.vida = data_enemy.vida;
-    orc_demon.posX = posX;
-    orc_demon.posY = posY - (Data_sprites.stopped.height_quad + 60);
-    orc_demon.name = name;
+    inimigo.novo(orc_demon, '20', 'Orc', 100, 25, posX, (posY - (data_sprites.stopped.height_quad + 60)), name);
 
     --orc songs attacks
     orc_demon.song_attacks = {}
@@ -104,7 +99,7 @@ function orc_module.novo(posX, posY, name)
 
     orc_demon.sprites = {};
 
-    for k, v in pairs(Data_sprites) do
+    for k, v in pairs(data_sprites) do
         orc_module.load_sprites(orc_demon, v);
     end
 

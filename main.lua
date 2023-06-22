@@ -63,52 +63,54 @@ function love.load()
     gerencia.load();
     gerencia_inimigo.load();
 
-    gerencia.generate_sprite(player, 'walk', player.data_sprites.walk.sprite, player.data_sprites.walk.width_sprite,
-        player.data_sprites.walk.height_sprite, player.data_sprites.walk.width_quad,
-        player.data_sprites.walk.height_quad, player.data_sprites.walk.quant_quads, 'right', true, 0.2);
-    gerencia.generate_sprite(player, 'stopped', player.data_sprites.stopped.sprite,
-        player.data_sprites.stopped.width_sprite, player.data_sprites.stopped.height_sprite,
-        player.data_sprites.stopped.width_quad, player.data_sprites.stopped.height_quad,
-        player.data_sprites.stopped.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'attack', player.data_sprites.attack.sprite,
-        player.data_sprites.attack.width_sprite, player.data_sprites.attack.height_sprite,
-        player.data_sprites.attack.width_quad, player.data_sprites.attack.height_quad,
-        player.data_sprites.attack.quant_quads, 'right', false, 0.2);
-    gerencia.generate_sprite(player, 'death', player.data_sprites.death.sprite, player.data_sprites.death.width_sprite,
-        player.data_sprites.death.height_sprite, player.data_sprites.death.width_quad,
-        player.data_sprites.death.height_quad, player.data_sprites.death.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'defense', player.data_sprites.defense.sprite,
-        player.data_sprites.defense.width_sprite, player.data_sprites.defense.height_sprite,
-        player.data_sprites.defense.width_quad, player.data_sprites.defense.height_quad,
-        player.data_sprites.defense.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'hp_bar', player.data_sprites.hp_bar.sprite,
-        player.data_sprites.hp_bar.width_sprite, player.data_sprites.hp_bar.height_sprite,
-        player.data_sprites.hp_bar.width_quad, player.data_sprites.hp_bar.height_quad,
-        player.data_sprites.hp_bar.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'text_player_death', player.data_sprites.text_player_death.sprite,
-        player.data_sprites.text_player_death.width_sprite, player.data_sprites.text_player_death.height_sprite,
-        player.data_sprites.text_player_death.width_quad, player.data_sprites.text_player_death.height_quad,
-        player.data_sprites.text_player_death.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'damaged', player.data_sprites.damaged.sprite,
-        player.data_sprites.damaged.width_sprite, player.data_sprites.damaged.height_sprite,
-        player.data_sprites.damaged.width_quad, player.data_sprites.damaged.height_quad,
-        player.data_sprites.damaged.quant_quads, 'right', false, 0.2);
-    gerencia.generate_sprite(player, 'abaixando', player.data_sprites.abaixando.sprite,
-        player.data_sprites.abaixando.width_sprite, player.data_sprites.abaixando.height_sprite,
-        player.data_sprites.abaixando.width_quad, player.data_sprites.abaixando.height_quad,
-        player.data_sprites.abaixando.quant_quads, 'right', false, 0.3);
-    gerencia.generate_sprite(player, 'pulando', player.data_sprites.pulando.sprite,
-        player.data_sprites.pulando.width_sprite, player.data_sprites.pulando.height_sprite,
-        player.data_sprites.pulando.width_quad, player.data_sprites.pulando.height_quad,
-        player.data_sprites.pulando.quant_quads, 'right', false, 0.2);
-    gerencia.generate_sprite(player, 'rolamento', player.data_sprites.rolamento.sprite,
-        player.data_sprites.rolamento.width_sprite, player.data_sprites.rolamento.height_sprite,
-        player.data_sprites.rolamento.width_quad, player.data_sprites.rolamento.height_quad,
-        player.data_sprites.rolamento.quant_quads, 'right', false, 0.25);
-    gerencia.generate_sprite(player, 'especial', player.data_sprites.especial.sprite,
-        player.data_sprites.especial.width_sprite, player.data_sprites.especial.height_sprite,
-        player.data_sprites.especial.width_quad, player.data_sprites.especial.height_quad,
-        player.data_sprites.especial.quant_quads, 'right', false, 0.2);
+    -- gerencia.generate_sprite(player, 'walk', player.data_sprites.walk.sprite, player.data_sprites.walk.width_sprite,
+    --     player.data_sprites.walk.height_sprite, player.data_sprites.walk.width_quad,
+    --     player.data_sprites.walk.height_quad, player.data_sprites.walk.quant_quads, 'right', true, 0.2);
+
+    -- gerencia.generate_sprite(player, 'stopped', player.data_sprites.stopped.sprite,
+    --     player.data_sprites.stopped.width_sprite, player.data_sprites.stopped.height_sprite,
+    --     player.data_sprites.stopped.width_quad, player.data_sprites.stopped.height_quad,
+    --     player.data_sprites.stopped.quant_quads, 'right', false, 0.3);
+
+    -- gerencia.generate_sprite(player, 'attack', player.data_sprites.attack.sprite,
+    --     player.data_sprites.attack.width_sprite, player.data_sprites.attack.height_sprite,
+    --     player.data_sprites.attack.width_quad, player.data_sprites.attack.height_quad,
+    --     player.data_sprites.attack.quant_quads, 'right', false, 0.2);
+    -- gerencia.generate_sprite(player, 'death', player.data_sprites.death.sprite, player.data_sprites.death.width_sprite,
+    --     player.data_sprites.death.height_sprite, player.data_sprites.death.width_quad,
+    --     player.data_sprites.death.height_quad, player.data_sprites.death.quant_quads, 'right', false, 0.3);
+    -- gerencia.generate_sprite(player, 'defense', player.data_sprites.defense.sprite,
+    --     player.data_sprites.defense.width_sprite, player.data_sprites.defense.height_sprite,
+    --     player.data_sprites.defense.width_quad, player.data_sprites.defense.height_quad,
+    --     player.data_sprites.defense.quant_quads, 'right', false, 0.3);
+    -- gerencia.generate_sprite(player, 'hp_bar', player.data_sprites.hp_bar.sprite,
+    --     player.data_sprites.hp_bar.width_sprite, player.data_sprites.hp_bar.height_sprite,
+    --     player.data_sprites.hp_bar.width_quad, player.data_sprites.hp_bar.height_quad,
+    --     player.data_sprites.hp_bar.quant_quads, 'right', false, 0.3);
+    -- gerencia.generate_sprite(player, 'text_player_death', player.data_sprites.text_player_death.sprite,
+    --     player.data_sprites.text_player_death.width_sprite, player.data_sprites.text_player_death.height_sprite,
+    --     player.data_sprites.text_player_death.width_quad, player.data_sprites.text_player_death.height_quad,
+    --     player.data_sprites.text_player_death.quant_quads, 'right', false, 0.3);
+    -- gerencia.generate_sprite(player, 'damaged', player.data_sprites.damaged.sprite,
+    --     player.data_sprites.damaged.width_sprite, player.data_sprites.damaged.height_sprite,
+    --     player.data_sprites.damaged.width_quad, player.data_sprites.damaged.height_quad,
+    --     player.data_sprites.damaged.quant_quads, 'right', false, 0.2);
+    -- gerencia.generate_sprite(player, 'abaixando', player.data_sprites.abaixando.sprite,
+    --     player.data_sprites.abaixando.width_sprite, player.data_sprites.abaixando.height_sprite,
+    --     player.data_sprites.abaixando.width_quad, player.data_sprites.abaixando.height_quad,
+    --     player.data_sprites.abaixando.quant_quads, 'right', false, 0.3);
+    -- gerencia.generate_sprite(player, 'pulando', player.data_sprites.pulando.sprite,
+    --     player.data_sprites.pulando.width_sprite, player.data_sprites.pulando.height_sprite,
+    --     player.data_sprites.pulando.width_quad, player.data_sprites.pulando.height_quad,
+    --     player.data_sprites.pulando.quant_quads, 'right', false, 0.2);
+    -- gerencia.generate_sprite(player, 'rolamento', player.data_sprites.rolamento.sprite,
+    --     player.data_sprites.rolamento.width_sprite, player.data_sprites.rolamento.height_sprite,
+    --     player.data_sprites.rolamento.width_quad, player.data_sprites.rolamento.height_quad,
+    --     player.data_sprites.rolamento.quant_quads, 'right', false, 0.25);
+    -- gerencia.generate_sprite(player, 'especial', player.data_sprites.especial.sprite,
+    --     player.data_sprites.especial.width_sprite, player.data_sprites.especial.height_sprite,
+    --     player.data_sprites.especial.width_quad, player.data_sprites.especial.height_quad,
+    --     player.data_sprites.especial.quant_quads, 'right', false, 0.2);
 
 end
 
@@ -227,8 +229,7 @@ function love.draw()
             player.char.x = 20;
 
             orc_demon_1.posX = EndX - 200;
-            State = 'peaceful';
-            print(player.state);
+            orc_demon_1.state = 'peaceful';
         end
     end
 
@@ -246,13 +247,9 @@ function love.update(dt)
         Plane_alive = true
     end
 
-    if ((State == 'death' and player.char.x >= EndX - 25 and Cenario == 'forest')) then
+    if ((orc_demon_1.state == 'death' and player.char.x >= EndX - 25 and Cenario == 'forest')) then
         Cenario = 'hell';
         player.char.x = 20;
-
-        State = 'peaceful'
-        Dir = 0;
-        Dir_nome = 'stopped'
 
         gerencia_inimigo.update(boss_agrid, player, dt);
 

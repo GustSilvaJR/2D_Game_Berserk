@@ -3,7 +3,7 @@ local gerencia_ataque_module = {}
 gerencia_ataque_module.update = function(player, enemy)
 end
 
-gerencia_ataque_module.calcula_modulo_distancia = function (player, enemy)
+gerencia_ataque_module.calcula_modulo_distancia = function(player, enemy)
     local modulo_distancia = player.char.x - enemy.posX;
     local dir, dir_orc;
 
@@ -27,52 +27,49 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
 
     local info_positions = gerencia_ataque_module.calcula_modulo_distancia(player, enemy);
 
+    print(player.sprites.current.attack_range)
+
     -- Ataque player
-    if ((player.state == 'attacking' and  info_positions.modulo_distancia <= 150) or  (player.state == 'especial' and  info_positions.modulo_distancia <= 300)
-    and not (State == 'death') and player.char.last_move_x ==
-    info_positions.dir) then
+    if ((player.state == 'attacking' and info_positions.modulo_distancia <= player.sprites.current.attack_range) and
+        not (enemy.state == 'death') and player.char.last_move_x == info_positions.dir) then
 
         local defense = 0;
         local dmg = 0;
 
-        if(player.state == 'especial') then
+        if (player.state == 'especial') then
             dmg = player.dmg_especial;
         else
             dmg = player.dano_espada;
         end
 
-        -- if (not (State == 'attacking')) then
-        --     State = 'damaged'
-        --     defense = 10;
-        -- end
-
         print("Current Pré Ataque HP Orc: " .. enemy.vida);
         print('Acertou');
 
         enemy.vida = enemy.vida - dmg;
-        State = 'damaged';
+        enemy.state = 'damaged';
 
-        if(player.state == 'especial') then
+        if (player.state == 'especial') then
             player.state = 'peaceful'
             player.especial = 0;
             player.especial_state = false;
         else
-            player.especial = player.especial+30;
+            player.especial = player.especial + 30;
         end
-        if(player.especial>100) then
+        if (player.especial > 100) then
             player.especial = 100;
         end
-        
+
         print("Current HP Orc: " .. enemy.vida);
 
         if (enemy.vida <= 0) then
-            State = 'death';
+            enemy.state = 'death';
         end
 
     end
 
     -- Ataque orc
-    if State == 'attacking' and info_positions.modulo_distancia <= 150 and Dir_nome == info_positions.dir_orc then
+    if enemy.state == 'attacking' and info_positions.modulo_distancia <= 150 and enemy.dir_nome ==
+        info_positions.dir_orc then
 
         -- print("Current Pré Ataque HP Player: " .. player.vida);
         -- print('Orc Acertou');

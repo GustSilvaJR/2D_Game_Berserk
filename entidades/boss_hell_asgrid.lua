@@ -9,10 +9,10 @@ local data_sprites_asgrid = {
         name = 'run',
         sprite = love.graphics.newImage("imagens/boss_hell_sprites/ANDANDO.png"),
 
-        width_sprite = 1970,
+        width_sprite = 2100,
         height_sprite = 280,
 
-        width_quad = 197,
+        width_quad = 210,
         height_quad = 280,
 
         quant_quads = 10,
@@ -24,10 +24,10 @@ local data_sprites_asgrid = {
         name = 'stopped',
         sprite = love.graphics.newImage("imagens/boss_hell_sprites/PARADO.png"),
 
-        width_sprite = 1230,
+        width_sprite = 1330,
         height_sprite = 280,
 
-        width_quad = 205,
+        width_quad = 220,
         height_quad = 280,
 
         quant_quads = 6,
@@ -39,10 +39,10 @@ local data_sprites_asgrid = {
         name = 'attack_1',
         sprite = love.graphics.newImage("imagens/boss_hell_sprites/ATK_1.png"),
 
-        width_sprite = 5325,
+        width_sprite = 5850,
         height_sprite = 280,
 
-        width_quad = 355,
+        width_quad = 390,
         height_quad = 280,
 
         quant_quads = 15,
@@ -54,15 +54,15 @@ local data_sprites_asgrid = {
         name = 'death',
         sprite = love.graphics.newImage("imagens/boss_hell_sprites/MORTO.png"),
 
-        width_sprite = 1230,
+        width_sprite = 6500,
         height_sprite = 280,
 
-        width_quad = 205,
+        width_quad = 325,
         height_quad = 280,
 
         quant_quads = 20,
-        duration = 1
-    },
+        duration = 0.8
+    }
 }
 
 function boss_hell_module.load_sprites(boss_hell, data)
@@ -78,18 +78,12 @@ function boss_hell_module.load_sprites(boss_hell, data)
 end
 
 function boss_hell_module.novo(posX, posY, name)
-    local data_enemy = inimigo.novo('45', 'Asgrid', 1000);
     local boss_asgrid = {}
-
-    boss_asgrid.forca = data_enemy.forca;
-    boss_asgrid.categoria = data_enemy.categoria;
-    boss_asgrid.vida = data_enemy.vida;
-    boss_asgrid.posX = posX;
-    boss_asgrid.posY = posY - (data_sprites_asgrid.stopped.height_quad + 60);
-    boss_asgrid.name = name;
+    inimigo.novo(boss_asgrid, '45', 'Boss', 1000, 50, posX, (posY - (data_sprites_asgrid.stopped.height_quad + 60)),
+        name);
 
     boss_asgrid.sprites = {};
-    
+
     for k, v in pairs(data_sprites_asgrid) do
         boss_hell_module.load_sprites(boss_asgrid, v);
     end

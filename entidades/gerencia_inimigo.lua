@@ -16,13 +16,11 @@ gerencia_inimigo.load = function()
     State = 'peaceful'
 
     Run = coroutine.create(function()
-        print('Inicio corroutine')
         local clock = 2
         while clock > 0 do
             clock = clock - coroutine.yield(true)
         end
         -- waited 5 seconds, do your thing here.
-        print("End corroutine")
 
         gerencia_inimigo.sort_move();
     end)
@@ -42,8 +40,8 @@ gerencia_inimigo.check_enemies = function(inimigo)
         dir = 'right';
     end
 
-    if (modulo_distancia <= 300 and not (State == 'death')) then
-        State = 'attention';
+    if (modulo_distancia <= 300 and not (inimigo.state == 'death')) then
+        inimigo.state = 'attention';
     end
 
     return {
@@ -58,66 +56,66 @@ gerencia_inimigo.sort_move = function(inimigo)
 
     local info_player = gerencia_inimigo.check_enemies(inimigo);
 
-    if (State == 'peaceful') then
-        if (Dir == 1 or Dir == 2) then
-            Dir = 0;
-            Dir_nome = 'stopped';
+    if (inimigo.state == 'peaceful') then
+        if (inimigo.dir == 1 or inimigo.dir == 2) then
+            inimigo.dir = 0;
+            inimigo.dir_nome = 'stopped';
         else
             -- Direção--
-            Dir = math.random(3, 0);
+            inimigo.dir = math.random(3, 0);
 
-            if (Dir == 1) then
-                Dir_nome = 'right'
-            elseif (Dir == 2) then
-                Dir_nome = 'left'
+            if (inimigo.dir == 1) then
+                inimigo.dir_nome = 'right'
+            elseif (inimigo.dir == 2) then
+                inimigo.dir_nome = 'left'
             end
         end
         -- Fim_Direção--
 
         -- Quantidade de pixels move--
-        Move_px = math.random(9, 15);
+        inimigo.move_px = math.random(9, 15);
     else
 
-        if (info_player.distancia <= 150 and not (State == 'death')) then
+        if (info_player.distancia <= 150 and not (inimigo.state == 'death')) then
 
             if (info_player.distancia <= 20) then
                 if (info_player.direcao == 'right') then
-                    Dir = 2;
-                    Dir_nome = 'left'
-                    Move_px = 5;
+                    inimigo.dir = 2;
+                    inimigo.dir_nome = 'left'
+                    inimigo.move_px = 5;
                 else
-                    Dir = 1
-                    Dir_nome = 'right'
-                    Move_px = 5;
+                    inimigo.dir = 1
+                    inimigo.dir_nome = 'right'
+                    inimigo.move_px = 5;
                 end
             else
                 if (info_player.direcao == 'right') then
-                    Dir = 1;
-                    Dir_nome = 'right'
+                    inimigo.dir = 1;
+                    inimigo.dir_nome = 'right'
                 else
-                    Dir = 2
-                    Dir_nome = 'left'
+                    inimigo.dir = 2
+                    inimigo.dir_nome = 'left'
                 end
-                Move_px = 0;
-                State = 'attacking'
+                inimigo.move_px = 0;
+                inimigo.state = 'attacking'
             end
         else
 
             if (info_player.direcao == 'right') then
-                Dir = 1;
-                Dir_nome = 'right';
-                if (not (State == 'death')) then
-                    State = 'peaceful';
+                inimigo.dir = 1;
+                inimigo.dir_nome = 'right';
+                if (not (inimigo.state == 'death')) then
+                    inimigo.state = 'peaceful';
                 end
             else
-                Dir = 2;
-                Dir_nome = 'left';
-                if (not (State == 'death')) then
-                    State = 'peaceful';
+                inimigo.dir = 2;
+                inimigo.dir_nome = 'left';
+                if (not (inimigo.state == 'death')) then
+                    inimigo.state = 'peaceful';
                 end
             end
 
-            Move_px = 10;
+            inimigo.move_px = 10;
         end
     end
 end
@@ -215,53 +213,51 @@ gerencia_inimigo.update = function(inimigo, player, dt)
 
     gerencia_inimigo.sleep_timer_to_sort(dt, inimigo);
 
-    if (not (State == 'death')) then
+    if (not (inimigo.state == 'death')) then
 
-        print(Dir_nome, inimigo.name)
-
-        if Dir_nome == 'right' and not (State == 'attacking') and not (State == 'damaged') then
+        if inimigo.dir_nome == 'right' and not (inimigo.state == 'attacking') and not (inimigo.state == 'damaged') then
             inimigo.sprites.attack_1.animation.frame = 1;
 
             inimigo.sprites.current = inimigo.sprites.run;
 
             inimigo.sprites.current.animation.idle = false;
             inimigo.sprites.current.animation.direction = 'right'
-        elseif Dir_nome == 'left' and not (State == 'attacking') and not (State == 'damaged') then
+        elseif inimigo.dir_nome == 'left' and not (inimigo.state == 'attacking') and not (inimigo.state == 'damaged') then
             inimigo.sprites.attack_1.animation.frame = 1;
 
             inimigo.sprites.current = inimigo.sprites.run;
 
             inimigo.sprites.current.animation.idle = false;
             inimigo.sprites.current.animation.direction = 'left'
-        elseif (Dir_nome == 'right') and (State == 'attacking') then
+        elseif (inimigo.dir_nome == 'right') and (inimigo.state == 'attacking') then
             inimigo.sprites.current = inimigo.sprites.attack_1;
 
             inimigo.sprites.current.animation.idle = false;
             inimigo.sprites.current.animation.direction = 'right'
-        elseif (Dir_nome == 'left') and (State == 'attacking') then
+        elseif (inimigo.dir_nome == 'left') and (inimigo.state == 'attacking') then
             inimigo.sprites.current = inimigo.sprites.attack_1;
 
             inimigo.sprites.current.animation.idle = false;
             inimigo.sprites.current.animation.direction = 'left'
-        elseif (Dir_nome == 'right') and (State == 'damaged') then
+        elseif (inimigo.dir_nome == 'right') and (inimigo.state == 'damaged') then
             inimigo.sprites.attack_1.animation.frame = 1;
             inimigo.sprites.current = inimigo.sprites.damaged;
 
             inimigo.sprites.current.animation.idle = false;
             inimigo.sprites.current.animation.direction = 'right'
-        elseif (Dir_nome == 'left') and (State == 'damaged') then
+        elseif (inimigo.dir_nome == 'left') and (inimigo.state == 'damaged') then
             inimigo.sprites.attack_1.animation.frame = 1;
             inimigo.sprites.current = inimigo.sprites.damaged;
 
             inimigo.sprites.current.animation.idle = false;
             inimigo.sprites.current.animation.direction = 'left'
         else
-            if (not (State == 'death')) then
+            if (not (inimigo.state == 'death')) then
                 inimigo.sprites.attack_1.animation.frame = 1;
                 inimigo.sprites.current.animation.idle = true;
 
                 inimigo.sprites.current = inimigo.sprites.stopped;
-                State = 'peaceful'
+                inimigo.state = 'peaceful'
                 inimigo.sprites.current.animation.direction = 'left'
             end
 
@@ -280,28 +276,28 @@ gerencia_inimigo.update = function(inimigo, player, dt)
         if inimigo.sprites.current.animation.timer > inimigo.sprites.current.animation.duration then
             inimigo.sprites.current.animation.timer = 0.1;
 
-            if (not (State == 'death' and inimigo.sprites.current.animation.frame ==
+            if (not (inimigo.state == 'death' and inimigo.sprites.current.animation.frame ==
                 inimigo.sprites.current.animation.max_frames)) then
                 inimigo.sprites.current.animation.frame = inimigo.sprites.current.animation.frame + 1;
             end
 
-            if inimigo.sprites.current.animation.direction == "right" and not (State == 'death') then
-                if (inimigo.posX + Move_px < (EndX - inimigo.sprites.current.quad_w)) then
-                    inimigo.posX = inimigo.posX + Move_px;
+            if inimigo.sprites.current.animation.direction == "right" and not (inimigo.state == 'death') then
+                if (inimigo.posX + inimigo.move_px < (EndX - inimigo.sprites.current.quad_w)) then
+                    inimigo.posX = inimigo.posX + inimigo.move_px;
                 else
-                    Dir_nome = 'left'
-                    Dir = 2
+                    inimigo.dir_nome = 'left'
+                    inimigo.dir = 2
                 end
-            elseif inimigo.sprites.current.animation.direction == "left" and not (State == 'death') then
-                if (inimigo.posX - Move_px > inimigo.sprites.current.quad_w) then
-                    inimigo.posX = inimigo.posX - Move_px;
+            elseif inimigo.sprites.current.animation.direction == "left" and not (inimigo.state == 'death') then
+                if (inimigo.posX - inimigo.move_px > inimigo.sprites.current.quad_w) then
+                    inimigo.posX = inimigo.posX - inimigo.move_px;
                 else
-                    Dir_nome = 'right'
-                    Dir = 1
+                    inimigo.dir_nome = 'right'
+                    inimigo.dir = 1
                 end
             end
 
-            if inimigo.sprites.current.animation.frame == 3 and State == 'attacking' and Cenario == 'forest' then
+            if inimigo.sprites.current.animation.frame == 3 and inimigo.state == 'attacking' and Cenario == 'forest' then
                 inimigo.song_attacks.normal_attack:setLooping(false)
                 inimigo.song_attacks.normal_attack:setVolume(1)
                 inimigo.song_attacks.normal_attack:setPitch(0.5)
@@ -309,9 +305,9 @@ gerencia_inimigo.update = function(inimigo, player, dt)
             end
 
             if inimigo.sprites.current.animation.frame > inimigo.sprites.current.animation.max_frames and
-                not (State == 'death') then
+                not (inimigo.state == 'death') then
 
-                if (State == 'attacking') then
+                if (inimigo.state == 'attacking') then
                     gerencia_ataque.valida_ataque(player, Inimigos[1], false)
                 end
 

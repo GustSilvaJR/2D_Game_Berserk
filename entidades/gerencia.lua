@@ -20,7 +20,7 @@ gerencia.draw = function(jogador)
                 0, -1, 1, jogador.sprites.current.quad_w, 0)
         end
 
-        love.graphics.print("Posicao Y:        " .. jogador.char.y)
+        --love.graphics.print("Posicao Y:        " .. jogador.char.y)
 
     elseif (Cenario == 'hell') then
         if jogador.sprites.current.animation.direction == 'right' then
@@ -47,7 +47,7 @@ gerencia.update = function(jogador, dt, p2)
         if love.keyboard.isDown('d') and not (p2.state == 'damaged') then
             if not (p2.state == 'saltando') then
                 p2.char.last_move_x = 'right';
-                p2.sprites.current = p2.sprites.walk;
+                p2.sprites.current = p2.sprites.run;
 
                 p2.sprites.current.animation.idle = false;
                 p2.sprites.current.animation.direction = 'right'
@@ -58,7 +58,7 @@ gerencia.update = function(jogador, dt, p2)
         elseif love.keyboard.isDown('a') and not (p2.state == 'damaged') then
             if not (p2.state == 'saltando') then
                 p2.char.last_move_x = 'left';
-                p2.sprites.current = p2.sprites.walk;
+                p2.sprites.current = p2.sprites.run;
 
                 p2.sprites.current.animation.idle = false;
                 p2.sprites.current.animation.direction = 'left'
@@ -68,7 +68,7 @@ gerencia.update = function(jogador, dt, p2)
         elseif love.keyboard.isDown('j') and not (p2.state == 'damaged') then
             p2.state = 'attacking';
 
-            p2.sprites.current = p2.sprites.attack;
+            p2.sprites.current = p2.sprites.attack_1;
 
             p2.sprites.current.animation.idle = false;
 
@@ -149,7 +149,7 @@ gerencia.update = function(jogador, dt, p2)
             if not (p2.state == 'saltando') and not (p2.state == 'damaged') then
                 p2.state = 'peaceful';
 
-                if (p2.sprites.current.name == 'attack') then
+                if (p2.sprites.current.name == 'attack_1') then
                     p2.sprites.current.animation.frame = 1;
                 end
 
@@ -280,7 +280,11 @@ end
 
 -- Animação Sprite
 gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
-    direction, current, duration)
+    direction, current, duration, attack_range)
+
+    if(attack_range) then
+        print("Campo opcional foi passado: ".. attack_range )
+    end
 
     player.sprites[name_sprite] = {
         name = name_sprite,
@@ -289,6 +293,7 @@ gerencia.generate_sprite = function(player, name_sprite, sprite, sprite_w, sprit
         sprite_h = sprite_h,
         quad_w = quad_w,
         quad_h = quad_h,
+        attack_range = attack_range or nil,
         animation = {
             direction = direction,
             idle = false,
