@@ -82,7 +82,8 @@ function orc_module.load_sprites(orc, data)
 
     gerencia_inimigo.generate_sprite(orc, data.name, data.sprite, data.width_sprite, data.height_sprite,
         data.width_quad, data.height_quad, data.quant_quads, 'right', curr, data.duration);
-end
+
+    end
 
 --function orc_module.keep_track(orc)
 

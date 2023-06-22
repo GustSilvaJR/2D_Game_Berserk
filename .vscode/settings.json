@@ -10,5 +10,6 @@
     "Lua.diagnostics.disable": [
         "unused-function",
         "lowercase-global"
-    ]
+    ],
+    "files.autoSave": "afterDelay"
 }

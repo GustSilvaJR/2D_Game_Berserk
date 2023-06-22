@@ -217,6 +217,8 @@ gerencia_inimigo.update = function(inimigo, player, dt)
 
     if (not (State == 'death')) then
 
+        print(Dir_nome, inimigo.name)
+
         if Dir_nome == 'right' and not (State == 'attacking') and not (State == 'damaged') then
             inimigo.sprites.attack_1.animation.frame = 1;
 
@@ -299,7 +301,7 @@ gerencia_inimigo.update = function(inimigo, player, dt)
                 end
             end
 
-            if inimigo.sprites.current.animation.frame == 3 and State == 'attacking' then
+            if inimigo.sprites.current.animation.frame == 3 and State == 'attacking' and Cenario == 'forest' then
                 inimigo.song_attacks.normal_attack:setLooping(false)
                 inimigo.song_attacks.normal_attack:setVolume(1)
                 inimigo.song_attacks.normal_attack:setPitch(0.5)

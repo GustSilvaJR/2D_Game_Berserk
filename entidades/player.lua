@@ -19,9 +19,8 @@ player.defesa_bloq = 15
 player.song_attacks = {}
 player.song_attacks.normal_attack = love.audio.newSource('songs/attacks/guts/normal_attack.mp3', 'static');
 
-
 player.char = {}
-player.char.image = love.graphics.newImage("imagens/guts_parado_dir.png")
+player.char.image = ''
 player.char.velocidadeY = 3
 player.char.velocidade = 5
 player.char.salto = 170
