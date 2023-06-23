@@ -27,7 +27,7 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
 
     local info_positions = gerencia_ataque_module.calcula_modulo_distancia(player, enemy);
 
-    print(player.sprites.current.attack_range)
+    --print('asdada'..player.sprites.current.attack_range)
 
     -- Ataque player
     if ((player.state == 'attacking' and info_positions.modulo_distancia <= player.sprites.current.attack_range) and
