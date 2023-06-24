@@ -138,14 +138,16 @@ gerencia_inimigo.sleep_timer_to_sort = function(dt, inimigo)
 end
 
 gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w, sprite_h, quad_w, quad_h, quant_quads,
-    direction, current, duration)
+    direction, current, duration, attack_range)
 
     enemy.sprites[name_sprite] = {
+        name = name_sprite,
         sprite = sprite,
         sprite_w = sprite_w,
         sprite_h = sprite_h,
         quad_w = quad_w,
         quad_h = quad_h,
+        attack_range = attack_range or nil,
         animation = {
             direction = direction,
             idle = false,
@@ -167,6 +169,7 @@ gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w
         enemy.sprites.current = {}
 
         enemy.sprites.current = {
+            name = name_sprite,
             sprite = sprite,
             sprite_w = sprite_w,
             sprite_h = sprite_h,

@@ -45,8 +45,10 @@ local data_sprites_asgrid = {
         width_quad = 390,
         height_quad = 280,
 
+        attack_range = 390,
+
         quant_quads = 15,
-        duration = 0.4
+        duration = 0.2
     },
 
     death = {

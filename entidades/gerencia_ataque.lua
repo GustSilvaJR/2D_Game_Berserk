@@ -31,7 +31,7 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
 
     -- Ataque player
     if ((player.state == 'attacking' and info_positions.modulo_distancia <= player.sprites.current.attack_range) and
-        not (enemy.state == 'death') and player.char.last_move_x == info_positions.dir) then
+        not (enemy.state == 'death') and player.char.last_move_x == info_positions.dir and (player.sprites.current.name == 'attack_1' or player.sprites.current.name == 'especial')) then
 
         local defense = 0;
         local dmg = 0;
@@ -66,10 +66,10 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
         end
 
     end
-
+    print(enemy.sprites.current.name, enemy.sprites.current.attack_range);
     -- Ataque orc
-    if enemy.state == 'attacking' and info_positions.modulo_distancia <= 150 and enemy.dir_nome ==
-        info_positions.dir_orc then
+    if enemy.state == 'attacking' and info_positions.modulo_distancia <= enemy.sprites.current.attack_range and enemy.dir_nome ==
+        info_positions.dir_orc and (enemy.sprites.current.name == 'attack_1' or enemy.sprites.current.name == 'especial') then
 
         -- print("Current Pré Ataque HP Player: " .. player.vida);
         -- print('Orc Acertou');

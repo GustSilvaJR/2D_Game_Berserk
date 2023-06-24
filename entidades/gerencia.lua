@@ -241,7 +241,7 @@ gerencia.update = function(jogador, dt, p2)
 
                 if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
 
-                    if (p2.state == 'attacking' or p2.state == 'especial') then
+                    if (p2.sprites.current.name == 'attack_1' or p2.sprites.current.name == 'especial') then
                         gerencia_ataque.valida_ataque(p2, Inimigos[1], true)
 
                         if (p2.state == 'especial') then

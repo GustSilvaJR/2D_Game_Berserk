@@ -43,21 +43,23 @@ local data_sprites = {
         width_quad = 160,
         height_quad = 150,
 
+        attack_range = 160,
+
         quant_quads = 4,
-        duration = 0.4
+        duration = 0.3
     },
 
     damaged = {
         name = 'damaged',
         sprite = love.graphics.newImage("imagens/enemyOrcWarrior/HURT.png"),
-        width_sprite = 188,
+        width_sprite = 200,
         height_sprite = 150,
 
-        width_quad = 94,
+        width_quad = 100,
         height_quad = 150,
 
         quant_quads = 2,
-        duration = 0.2
+        duration = 0.4
     },
 
     death = {
