@@ -12,10 +12,11 @@ Gravidade = 0;
 Pos_player_x = 0;
 
 Plane_alive = true;
-Cenario = 'forest';
+Cenario = 'hell';
 
 EndX, Ground = love.graphics.getDimensions();
-Music = love.audio.newSource('songs/theme/ds.mp3', 'static')
+Music = love.audio.newSource('songs/theme/ds.mp3', 'static');
+Music_hell = love.audio.newSource('songs/theme/f_boss.mp3', 'static');
 
 -- Classes Gerenciais
 local gerencia = require('entidades/gerencia');
@@ -57,7 +58,7 @@ function love.load()
     sy = love.graphics.getHeight() / background_phase1:getHeight()
 
     Music:setLooping(true) -- so it doesnt stop
-    Music:setVolume(0.01)
+    Music:setVolume(0.02)
     Music:play()
 
     gerencia.load();
@@ -162,6 +163,12 @@ function love.draw()
 
         elseif (Cenario == 'hell') then
 
+            Music:stop();
+
+            Music_hell:setLooping(true) -- so it doesnt stop
+            Music_hell:setVolume(0.03)
+            Music_hell:play()
+
             -- Gerando cenário
             sx = love.graphics.getWidth() / background_phase2:getWidth()
             sy = love.graphics.getHeight() / background_phase2:getHeight()
@@ -182,6 +189,16 @@ function love.draw()
             love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
             -- FIM BARRA DE HP
 
+            --BARRA DE HP BOSS
+            local hpb_bar_x, hpb_bar_y = love.graphics.getWidth()/2 - boss_agrid.vida/2 * 1.5 , love.graphics.getHeight()-400;
+
+            love.graphics.setColor(love.math.colorFromBytes(168, 20, 0));
+            love.graphics.rectangle('fill', hpb_bar_x, 1.5 * hpb_bar_y, boss_agrid.vida * 1.5, 45, 10, 10, 0);
+
+            love.graphics.setColor(0, 0, 0);
+            love.graphics.rectangle('line', hpb_bar_x, 1.5 * hpb_bar_y, boss_agrid.vida * 1.5, 45, 10, 10, 0);
+            love.graphics.setColor(255, 255, 255);
+
             -- BARRA ESPECIAL
             local s_bar_x, s_bar_y = 71, 55;
 
@@ -192,7 +209,7 @@ function love.draw()
             love.graphics.rectangle('line', s_bar_x, 1.5 * s_bar_y, player.especial_max * 1.4, 5, 5, 0);
             love.graphics.setColor(255, 255, 255);
 
-            -- Desenhando Hp do personagem
+            -- Desenhando Icone do personagem
             love.graphics.draw(player.sprites.hp_bar.sprite, player.sprites.hp_bar.quads[1], 0, 0);
             -- FIM BARRA DE HP
 

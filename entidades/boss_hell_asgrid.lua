@@ -50,6 +50,22 @@ local data_sprites_asgrid = {
         quant_quads = 15,
         duration = 0.2
     },
+    attack_esq_1 = {
+
+        name = 'attack_esq_1',
+        sprite = love.graphics.newImage("imagens/boss_hell_sprites/ATK_ESQ_1.png"),
+
+        width_sprite = 5325,
+        height_sprite = 280,
+
+        width_quad = 355,
+        height_quad = 280,
+
+        attack_range = 355,
+
+        quant_quads = 15,
+        duration = 0.2
+    },
 
     damaged = {
 

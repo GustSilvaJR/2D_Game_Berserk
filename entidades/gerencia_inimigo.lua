@@ -284,6 +284,7 @@ gerencia_inimigo.update = function(inimigo, player, dt)
     end
 
     if not inimigo.sprites.current.animation.idle then
+
         inimigo.sprites.current.animation.timer = inimigo.sprites.current.animation.timer + dt;
 
         if inimigo.sprites.current.animation.timer > inimigo.sprites.current.animation.duration then

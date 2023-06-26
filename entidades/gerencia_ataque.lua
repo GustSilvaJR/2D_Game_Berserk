@@ -81,6 +81,8 @@ gerencia_ataque_module.valida_ataque = function(player, enemy, is_player_attack)
         -- print("Current Pré Ataque HP Player: " .. player.vida);
         -- print('Orc Acertou');
 
+
+
         if player.char.y < (enemy.posY - enemy.sprites.current.quad_h + 20) then
 
             print(player.char.y .. '   |  ' .. enemy.sprites.current.quad_h)
