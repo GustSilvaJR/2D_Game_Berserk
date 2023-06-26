@@ -73,10 +73,15 @@ gerencia_inimigo.sort_move = function(inimigo)
         -- Fim_Direção--
 
         -- Quantidade de pixels move--
-        inimigo.move_px = math.random(9, 15);
+        if inimigo.categoria == 'Orc'then
+            
+            inimigo.move_px = math.random(9, 15);
+        else
+            inimigo.move_px = math.random(15, 25);
+        end
     else
-
-        if (info_player.distancia <= 150 and not (inimigo.state == 'death')) then
+        print(inimigo.sprites.attack_1.attack_range, inimigo.name)
+        if (info_player.distancia <= inimigo.sprites.attack_1.attack_range and not (inimigo.state == 'death')) then
 
             if (info_player.distancia <= 20) then
                 if (info_player.direcao == 'right') then
@@ -115,7 +120,11 @@ gerencia_inimigo.sort_move = function(inimigo)
                 end
             end
 
-            inimigo.move_px = 10;
+            if inimigo.categoria == "Orc" then
+                inimigo.move_px = 15;
+            else
+                inimigo.move_px = 25;
+            end
         end
     end
 end
@@ -175,6 +184,7 @@ gerencia_inimigo.generate_sprite = function(enemy, name_sprite, sprite, sprite_w
             sprite_h = sprite_h,
             quad_w = quad_w,
             quad_h = quad_h,
+            attack_range = attack_range or nil,
             animation = {
                 direction = direction,
                 idle = false,
@@ -214,9 +224,9 @@ end
 
 gerencia_inimigo.update = function(inimigo, player, dt)
 
-    gerencia_inimigo.sleep_timer_to_sort(dt, inimigo);
-
+    
     if (not (inimigo.state == 'death')) then
+        gerencia_inimigo.sleep_timer_to_sort(dt, inimigo);
 
         if inimigo.dir_nome == 'right' and not (inimigo.state == 'attacking') and not (inimigo.state == 'damaged') then
             inimigo.sprites.attack_1.animation.frame = 1;
@@ -311,7 +321,12 @@ gerencia_inimigo.update = function(inimigo, player, dt)
                 not (inimigo.state == 'death') then
 
                 if (inimigo.state == 'attacking') then
-                    gerencia_ataque.valida_ataque(player, Inimigos[1], false)
+                    if(Cenario == 'hell')then
+                        gerencia_ataque.valida_ataque(player, Inimigos[2], false)
+                    else
+
+                        gerencia_ataque.valida_ataque(player, Inimigos[1], false)
+                    end
                 end
 
                 inimigo.sprites.current.animation.frame = 1

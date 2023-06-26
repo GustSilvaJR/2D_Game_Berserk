@@ -51,6 +51,21 @@ local data_sprites_asgrid = {
         duration = 0.2
     },
 
+    damaged = {
+
+        name = 'damaged',
+        sprite = love.graphics.newImage("imagens/boss_hell_sprites/HURT.png"),
+
+        width_sprite = 1275,
+        height_sprite = 280,
+
+        width_quad = 255,
+        height_quad = 280,
+
+        quant_quads = 5,
+        duration = 0.3
+    },
+
     death = {
 
         name = 'death',
@@ -63,7 +78,7 @@ local data_sprites_asgrid = {
         height_quad = 280,
 
         quant_quads = 20,
-        duration = 0.8
+        duration = 0.3
     }
 }
 
@@ -74,8 +89,14 @@ function boss_hell_module.load_sprites(boss_hell, data)
         curr = true;
     end
 
-    gerencia_inimigo.generate_sprite(boss_hell, data.name, data.sprite, data.width_sprite, data.height_sprite,
+    if(data.name == 'attack_1')then
+        
+        gerencia_inimigo.generate_sprite(boss_hell, data.name, data.sprite, data.width_sprite, data.height_sprite,
+        data.width_quad, data.height_quad, data.quant_quads, 'right', curr, data.duration, data.attack_range);
+    else
+        gerencia_inimigo.generate_sprite(boss_hell, data.name, data.sprite, data.width_sprite, data.height_sprite,
         data.width_quad, data.height_quad, data.quant_quads, 'right', curr, data.duration);
+    end
 
 end
 

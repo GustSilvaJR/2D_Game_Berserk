@@ -84,8 +84,15 @@ function orc_module.load_sprites(orc, data)
         curr = true;
     end
 
-    gerencia_inimigo.generate_sprite(orc, data.name, data.sprite, data.width_sprite, data.height_sprite,
+    if(data.name == 'attack_1')then
+        gerencia_inimigo.generate_sprite(orc, data.name, data.sprite, data.width_sprite, data.height_sprite,
+        data.width_quad, data.height_quad, data.quant_quads, 'right', curr, data.duration, data.attack_range);
+    else
+        gerencia_inimigo.generate_sprite(orc, data.name, data.sprite, data.width_sprite, data.height_sprite,
         data.width_quad, data.height_quad, data.quant_quads, 'right', curr, data.duration);
+    end
+
+    
 
     end
 

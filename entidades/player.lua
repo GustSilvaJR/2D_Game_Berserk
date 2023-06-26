@@ -187,7 +187,7 @@ local data_sprites = {
         attack_range = 300,
 
         quant_quads = 14,
-        duration = 0.2
+        duration = 0.19
     } ----Especial----
 }
 

@@ -44,6 +44,10 @@ end
 gerencia.update = function(jogador, dt, p2)
     if (not (p2.state == 'death')) then
 
+        if(not(love.keyboard.isDown('j')))then
+            p2.sprites.attack_1.animation.frame = 1;
+        end
+
         if love.keyboard.isDown('d') and not (p2.state == 'damaged') then
             if not (p2.state == 'saltando') then
                 p2.char.last_move_x = 'right';
@@ -242,7 +246,11 @@ gerencia.update = function(jogador, dt, p2)
                 if p2.sprites.current.animation.frame > p2.sprites.current.animation.max_frames then
 
                     if (p2.sprites.current.name == 'attack_1' or p2.sprites.current.name == 'especial') then
-                        gerencia_ataque.valida_ataque(p2, Inimigos[1], true)
+                        if Cenario == 'hell' then
+                            gerencia_ataque.valida_ataque(p2, Inimigos[2], true)
+                        else
+                            gerencia_ataque.valida_ataque(p2, Inimigos[1], true)
+                        end
 
                         if (p2.state == 'especial') then
                             p2.especial = 0;
