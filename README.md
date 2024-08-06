@@ -5,7 +5,7 @@
 
 ## Sobre o Projeto
 
-![Screenshot do Jogo](./imagens/banner/banner.PNG)
+![Screenshot](./imagens/banner/banner_hell.PNG)
 
 **Guts' Revenge** é um jogo 2D de combate desenvolvido em Lua 5.4.2 e Love2D 11.5. Baseado no mundo de Berserk, você assume o papel de Guts em uma jornada de vingança e batalha. O jogo também incorpora elementos de Dark Souls, incluindo trilhas sonoras imersivas e uma jogabilidade desafiadora.
 
