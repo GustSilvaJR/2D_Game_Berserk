@@ -53,6 +53,8 @@
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
+---
+
 ## Colaboradores
 
 Agradecimentos especiais aos nossos colaboradores:
@@ -67,5 +69,5 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ---
 
-Feito com ❤️ por [seu-usuario](https://github.com/GustSilvaJR)
+Feito com ❤️ por [Gustavo Alessandro](https://github.com/GustSilvaJR)
 
