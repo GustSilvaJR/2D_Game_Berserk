@@ -1,7 +1,14 @@
 # Guts' Revenge: A Berserk and Dark Souls Inspired 2D Combat Game
 
+
 ![Love2D](https://img.shields.io/badge/Love2D-11.5-blue)
 ![Lua](https://img.shields.io/badge/Lua-5.4.2-blue)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
+
+## Status do Projeto
+
+🚧 **Este projeto está em desenvolvimento.** Algumas funcionalidades podem não estar completas e podem ocorrer mudanças significativas no código. Fique à vontade para contribuir e acompanhar o progresso!
 
 ## Sobre o Projeto
 
