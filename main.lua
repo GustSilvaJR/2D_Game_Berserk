@@ -12,7 +12,7 @@ Gravidade = 0;
 Pos_player_x = 0;
 
 Plane_alive = true;
-Cenario = 'hell';
+Cenario = 'forest';
 
 EndX, Ground = love.graphics.getDimensions();
 Music = love.audio.newSource('songs/theme/ds.mp3', 'static');
